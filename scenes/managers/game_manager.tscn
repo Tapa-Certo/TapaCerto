@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://byosiutq5a8s3"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_yei8q"]
+[ext_resource type="PackedScene" uid="uid://cvfi8nlouk24i" path="res://scenes/managers/animals_manager.tscn" id="2_wrcnp"]
+[ext_resource type="PackedScene" uid="uid://cqrfgcejyliff" path="res://scenes/objects/fruits.tscn" id="3_mdhw4"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_yei8q")
+
+[node name="AnimalsManager" parent="." instance=ExtResource("2_wrcnp")]
+offset_left = 750.0
+offset_top = 250.0
+offset_right = 750.0
+offset_bottom = 250.0
+columns = 2
+
+[node name="Fruit" parent="." instance=ExtResource("3_mdhw4")]
+position = Vector2(250, 250)
