@@ -5,7 +5,7 @@ var fruit_to_animal: Dictionary = {
 	"maca": "cavalo"
 }
 var current_fruit: String = ""
-var logger = load("res://scripts/logger.gd").get_instance()
+var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 
 func _ready() -> void:
 	show_new_fruit()

@@ -10,7 +10,8 @@ static var _instance: Logger = null
 #ISSO AQUI É CHAMADO NA INSTANCIACAO DO GAME_MANAGER DO JOGO E INSTANCIA O LOGGER UMA UNICA VEZ
 static func get_instance() -> Node:
 	if not _instance:
-		_instance = load("res://scripts/logger.gd").new()
+		_instance = load("res://scripts/data_collector/logger.gd").new()
+		
 	return _instance
 
 #PEGA O TEMPO QUE INICIOU, PENSEI NISSO PRA CASO A GENTE QUEIRA SABER O TEMPO ENTRE UMA ACAO E OUTRA
