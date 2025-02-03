@@ -25,3 +25,10 @@ func shuffle_animals_array(animals_array: Array) -> Array:
 	var shuffled = animals_array.duplicate()
 	shuffled.shuffle() 
 	return shuffled
+	
+func animate_correct_animal(animal_value: String):
+	print("movimenta animal")
+	pass
+func highlight_correct_animal(animal_value: String):
+	print("destaca animal")
+	pass
