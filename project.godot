@@ -18,6 +18,12 @@ config/icon="res://icon.svg"
 [autoload]
 
 Logger="*res://scripts/data_collector/logger.gd"
+Globals="*res://scripts/globals.gd"
+
+[display]
+
+window/size/viewport_width=1200
+window/size/viewport_height=700
 
 [rendering]
 

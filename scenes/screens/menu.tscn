@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://dyr1qi2yfwtaf"]
+
+[ext_resource type="Texture2D" uid="uid://btw3ov8frretb" path="res://assets/Botao Iniciar.png" id="2_b1osx"]
+[ext_resource type="Texture2D" uid="uid://ccjpbtell1u3c" path="res://assets/Botao Configuracoes.png" id="3_khnn4"]
+[ext_resource type="Texture2D" uid="uid://qi8owuakqxi4" path="res://assets/Botao Dados.png" id="4_55pwt"]
+[ext_resource type="FontFile" uid="uid://bnbyx8dq7i002" path="res://assets/Poppins-ExtraBold.ttf" id="4_trfoh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_s3lur"]
+
+[sub_resource type="Gradient" id="Gradient_fg2hc"]
+colors = PackedColorArray(0.360784, 0.427451, 0.878431, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5ldx4"]
+gradient = SubResource("Gradient_fg2hc")
+fill_from = Vector2(0.5, 0)
+fill_to = Vector2(0.5, 1.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c2txn"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_y3ij6"]
+font = ExtResource("4_trfoh")
+font_size = 64
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainerBackground" type="PanelContainer" parent="Panel"]
+clip_children = 1
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_s3lur")
+
+[node name="Background" type="TextureRect" parent="Panel/PanelContainerBackground"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_5ldx4")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 96
+
+[node name="PanelContainerBotoes" type="PanelContainer" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_c2txn")
+
+[node name="VBoxContainerBotoes" type="VBoxContainer" parent="Panel/MarginContainer/PanelContainerBotoes"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BotaoIniciar" type="TextureButton" parent="Panel/MarginContainer/PanelContainerBotoes/VBoxContainerBotoes"]
+layout_mode = 2
+texture_normal = ExtResource("2_b1osx")
+
+[node name="BotaoConfiguracoes" type="TextureButton" parent="Panel/MarginContainer/PanelContainerBotoes/VBoxContainerBotoes"]
+layout_mode = 2
+texture_normal = ExtResource("3_khnn4")
+
+[node name="BotaoDados" type="TextureButton" parent="Panel/MarginContainer/PanelContainerBotoes/VBoxContainerBotoes"]
+layout_mode = 2
+texture_normal = ExtResource("4_55pwt")
+
+[node name="Titulo" type="Label" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 10
+text = "CARINHO CERTO"
+label_settings = SubResource("LabelSettings_y3ij6")
+horizontal_alignment = 1
+vertical_alignment = 1
