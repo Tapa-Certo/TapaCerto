@@ -33,7 +33,8 @@ func show_new_fruit() -> void:
 
 func check_selection(selected_animal: String) -> bool:
 	var is_correct = fruit_to_animal[current_fruit] == selected_animal
-	print("Correto!" if is_correct else "Errado!")
+	if is_correct: logger.log_correct_answer(selected_animal)
+	#print(logger.log_correct_answer(selected_animal) if is_correct else "Errado!")
 	show_new_fruit()
 	return is_correct
 

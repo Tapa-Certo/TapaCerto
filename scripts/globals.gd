@@ -6,8 +6,9 @@ var master_volume: float = 1.0
 var music_volume: float = 1.0
 var sfx_volume: float = 1.0
 
-var shuffle_animals: bool = true
+var shuffle_animals: bool = false
 var show_hints: bool = true
+var enable_sound: bool = false
 
 var difficulty_level: String = "normal" #facil, normal, dificil
 #Criar logica para que ao mudar a dificuldade as outras configuracoes mudem automaticamente

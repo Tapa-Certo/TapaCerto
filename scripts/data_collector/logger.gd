@@ -11,7 +11,7 @@ static var _instance: Logger = null
 static func get_instance() -> Node:
 	if not _instance:
 		_instance = load("res://scripts/data_collector/logger.gd").new()
-		
+		_instance._init()
 	return _instance
 
 #PEGA O TEMPO QUE INICIOU, PENSEI NISSO PRA CASO A GENTE QUEIRA SABER O TEMPO ENTRE UMA ACAO E OUTRA
@@ -22,8 +22,8 @@ func _init():
 func _create_log_entry(event_type: String, details: Dictionary = {}) -> Dictionary:
 	var timestamp = Time.get_unix_time_from_system()
 	var entry = {
-		"timestamp": timestamp,
-		"time_since_start": timestamp - _session_start_time,
+		#"timestamp": timestamp,
+		"time_since_start": timestamp - _session_start_time, #CALCULO DO TEMPO ESTA ERRADO
 		"event_type": event_type,
 	}
 	entry.merge(details)
@@ -38,14 +38,16 @@ func log_button_click(animal_selected: String, current_fruit: String):
 		"current_fruit": current_fruit
 	})
 
-func log_correct_answer(animal_selected: String, time_taken: float):
+func log_correct_answer(animal_selected: String):
 	_create_log_entry("correct_answer", {
 		"animal_selected": animal_selected,
-		"time_taken": time_taken
 	})
 	
 #=================================================================================================================#
 func save_logs():
+	#TO-DO
+	#1. SALVAR DOCUMENTO POR SESSAO
+	#2. SALVAR EM .XLS
 	var file: FileAccess = FileAccess.open("user://game_logs.json", FileAccess.WRITE)
 	var json_string: String = JSON.stringify(_log_data, "\t")
 	file.store_string(json_string)
