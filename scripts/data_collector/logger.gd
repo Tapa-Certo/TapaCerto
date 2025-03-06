@@ -7,6 +7,12 @@ var _session_start_time: int
 #CRIA UMA VARIAVEL ESTATICA DO LOGGER
 static var _instance: Logger = null
 
+var start_time: int = 0
+var definitiveTime: int = 0
+var numberOfCorrects: int = 0
+var incorrect_answer: int = 0 
+
+
 #ISSO AQUI É CHAMADO NA INSTANCIACAO DO GAME_MANAGER DO JOGO E INSTANCIA O LOGGER UMA UNICA VEZ
 static func get_instance() -> Node:
 	if not _instance:
@@ -19,11 +25,13 @@ func _init():
 	_session_start_time = Time.get_unix_time_from_system()
 
 #ISSO AQUI É A BASE DO LOGGER, A ENTRADA DELE É O TIPO E OS DETALHES(BOTAO, ACERTOU OU ERROU, CLICOU NA TELA, ...)
-func _create_log_entry(event_type: String, details: Dictionary = {}) -> Dictionary:
-	var timestamp = Time.get_unix_time_from_system()
+func _create_log_entry(event_type: String, time_action: int, details: Dictionary = {}) -> Dictionary:
+	#var timestamp = Time.get_unix_time_from_system()
+	var time_for_correct
 	var entry = {
 		#"timestamp": timestamp,
-		"time_since_start": timestamp - _session_start_time, #CALCULO DO TEMPO ESTA ERRADO
+		#"time_since_start": timestamp - _session_start_time, #CALCULO DO TEMPO ESTA ERRADO
+		"time_for_correct": time_for_correct,
 		"event_type": event_type,
 	}
 	entry.merge(details)
@@ -33,15 +41,30 @@ func _create_log_entry(event_type: String, details: Dictionary = {}) -> Dictiona
 #=================================================================================================================#
 #SEGUIR ESSA ESTRUTURA PARA CADA LOG QUE FOR CRIADO
 func log_button_click(animal_selected: String, current_fruit: String):
-	_create_log_entry("button_click", {
+	_create_log_entry("button_click", start_timer(), {
 		"animal_selected": animal_selected,
 		"current_fruit": current_fruit
 	})
 
 func log_correct_answer(animal_selected: String):
-	_create_log_entry("correct_answer", {
+	incorrect_answer = 0
+	_create_log_entry("correct_answer", stop_timer(), {
 		"animal_selected": animal_selected,
 	})
+	
+func log_incorrect_answer(): 
+	incorrect_answer = incorrect_answer + 1
+
+# FUNÇÕES PARA DEFINIR O TEMPO ENTRE CADA AÇÃO 
+# Começa o contador 
+func start_timer():
+	start_time = Time.get_ticks_msec()
+
+# Termina o contador e printa o tempo gasto por ação 
+func stop_timer():
+	var elapsed_time = Time.get_ticks_msec() - start_time
+	print("Tempo decorrido: ", elapsed_time, " ms")
+	return elapsed_time
 	
 #=================================================================================================================#
 func save_logs():
