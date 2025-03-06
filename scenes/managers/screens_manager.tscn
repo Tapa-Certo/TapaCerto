@@ -8,8 +8,10 @@
 [node name="ScreensManager" type="Node"]
 script = ExtResource("1_grf44")
 
-[node name="Menu" parent="." instance=ExtResource("2_mf8vs")]
-
 [node name="Hud" parent="." instance=ExtResource("3_s3onf")]
+visible = false
 
 [node name="Game" parent="." instance=ExtResource("3_qdobr")]
+visible = false
+
+[node name="Menu" parent="." instance=ExtResource("2_mf8vs")]

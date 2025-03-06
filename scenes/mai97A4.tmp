@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://d3nmoqvqgb0bn"]
+
+[ext_resource type="PackedScene" uid="uid://bdnti2u1egggw" path="res://scenes/managers/screens_manager.tscn" id="1_uq0hm"]
+
+[node name="Main" type="Node2D"]
+
+[node name="ScreensManager" parent="." instance=ExtResource("1_uq0hm")]

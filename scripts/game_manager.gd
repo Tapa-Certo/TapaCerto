@@ -102,34 +102,63 @@ var itens_array: Array = [
 	]
 
 #MUDAR ISSO AQUI PARA PEGAR ITEM ALEATORIO DE LISTA JA TRIMADA
-var current_item: String = get_random_item()
+var current_item_value: String
+var current_item_key: String
+var current_item: Array
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
+
 var trimmed_dict: Dictionary
 var hud
+var item
+
 func _ready() -> void:
 	hud = get_node("/root/Main/ScreensManager/Hud")
-	if Globals.game_mode 	== "Parear": 	trimmed_dict = trim_items_list(fruit_to_animal)
-	elif Globals.game_mode 	== "Associar": 	trimmed_dict = trim_items_list(item_to_item)
-	print(trimmed_dict)
+	item = hud.get_node("Control/ItemDisplay/Item")
+	trimmed_dict = trim_list()
+	select_current_item()
 	display_item()
 	display_buttons()
 
-func display_item():
-	var item = hud.get_node("Control/ItemDisplay/Item")
-	item.set_item_image(current_item)
+func trim_list() -> Dictionary:
+	if Globals.game_mode 	== "Parear": 
+		return trim_items_list(fruit_to_animal)
+	elif Globals.game_mode 	== "Associar": 
+		return trim_items_list(item_to_item)
+	
+	return {}
+	
+func select_current_item() -> void:
+	current_item = get_random_item()
+	current_item_key = current_item[0]
+	current_item_value = current_item[1]
+	
+func display_item() -> void:
+	item.set_item_image(current_item_value)
+	item.position = Vector2(0,0)
 
 func display_buttons():
-	if Globals.game_mode 	== "Parear": 	$GridManager.setup_grid(trimmed_dict.values(), current_item)
-	elif Globals.game_mode 	== "Associar": 	$GridManager.setup_grid(trimmed_dict.values(), current_item)
+	if Globals.game_mode 	== "Parear": 
+		$GridManager.setup_grid(trimmed_dict.values(), current_item_value)
+	elif Globals.game_mode 	== "Associar": 
+		$GridManager.setup_grid(trimmed_dict.values(), current_item_value)
 	
 func check_selection(selected_item: String) -> bool:
 	var is_correct: bool = false
 	if Globals.game_mode == "Parear":
-		is_correct = item_to_item[current_item] == selected_item
-		if is_correct: logger.log_correct_answer(selected_item)
+		is_correct = item_to_item[current_item_value] == selected_item
+		if is_correct: 
+			trimmed_dict.erase(current_item_key)
+			if is_dict_empty():
+				trimmed_dict = trim_list()
+				select_current_item()
+				display_buttons()
+			else:
+				select_current_item()
+			logger.log_correct_answer(selected_item)
 	elif Globals.game_mode == "Associar":
-		is_correct = fruit_to_animal[current_item] == selected_item
-		if is_correct: logger.log_correct_answer(selected_item)
+		is_correct = fruit_to_animal[current_item_value] == selected_item
+		if is_correct: 
+			logger.log_correct_answer(selected_item)
 
 	display_item()
 	return is_correct
@@ -137,14 +166,23 @@ func check_selection(selected_item: String) -> bool:
 func trim_items_list(itens_dict: Dictionary) -> Dictionary:
 	var keys_list = itens_dict.keys()
 	keys_list.shuffle()
-	var selected_keys = keys_list.slice(0, min(Globals.current_columns * Globals.current_rows, keys_list.size()))
+	#MELHORAR ISSO AQUI PARA PEGAR ITENS ALEATORIOS PELA CHAVE
+	#var selected_keys = keys_list.slice(0, min(Globals.current_columns * Globals.current_rows, keys_list.size()))
+	var selected_keys = keys_list.slice(0, 8)
 	var new_dict = {}
 	for key in selected_keys:
 		new_dict[key] = itens_dict[key]
+	print(new_dict)
 	return new_dict
+	
+func is_dict_empty() -> bool:
+	return true if trimmed_dict.size() <= 0 else false
 
-func get_random_item() -> String:
-	return itens_array[randi() % itens_array.size()]
+func get_random_item() -> Array:
+	var keys = trimmed_dict.keys()
+	var values = trimmed_dict.values()
+	var random = randi() % keys.size()
+	return [keys[random], values[random]]
 
 func _exit_tree():
 	logger.save_logs()

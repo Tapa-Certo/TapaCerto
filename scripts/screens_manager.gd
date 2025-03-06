@@ -24,21 +24,22 @@ func register_buttons():
 
 
 func _on_button_pressed(button):
-	print("cliclou botao")
 	if Globals.enable_sound: print("fez som do botao")
 	match button.name:
 		"BotaoIniciar":
-			$Game.show()
-			$Menu.hide()
+			$Hud.show()
 			change_screen($Game)
 		"BotaoConfiguracoes":
 			change_screen($Configs) 
 		"BotaoDados":
 			change_screen($Data) 
 			
-	
 func change_screen(new_screen):
+	if current_screen:
+		current_screen.hide()
 	current_screen = new_screen
+	if new_screen:
+		current_screen.show()
 
 
 
