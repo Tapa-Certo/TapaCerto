@@ -28,8 +28,9 @@ func _on_button_pressed(button):
 	if Globals.enable_sound: print("fez som do botao")
 	match button.name:
 		"BotaoIniciar":
+			$Game.show()
+			$Menu.hide()
 			change_screen($Game)
-			#TO DO: Fazer o game ser parte do Screen Manager
 		"BotaoConfiguracoes":
 			change_screen($Configs) 
 		"BotaoDados":

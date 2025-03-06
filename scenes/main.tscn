@@ -1,10 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3nmoqvqgb0bn"]
+[gd_scene load_steps=2 format=3 uid="uid://d3nmoqvqgb0bn"]
 
-[ext_resource type="PackedScene" uid="uid://byosiutq5a8s3" path="res://scenes/managers/game_manager.tscn" id="1_qvea7"]
 [ext_resource type="PackedScene" uid="uid://bdnti2u1egggw" path="res://scenes/managers/screens_manager.tscn" id="1_uq0hm"]
 
 [node name="Main" type="Node2D"]
 
 [node name="ScreensManager" parent="." instance=ExtResource("1_uq0hm")]
-
-[node name="Game" parent="." instance=ExtResource("1_qvea7")]

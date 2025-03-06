@@ -18,34 +18,137 @@ var fruit_to_animal: Dictionary = {
 	"osso": "cachorro",
 	"noz": "esquilo"
 }
-var current_fruit: String = ""
+
+var fruit_to_fruit: Dictionary = {
+	"banana": "banana",
+	"maca": "maca",
+	"amendoim": "amendoim",
+	"arvore": "arvore",
+	"aquario": "aquario",
+	"carne": "carne",
+	"cenoura": "cenoura",
+	"flor": "flor",
+	"gelo": "gelo",
+	"lama": "lama",
+	"leite": "leite",
+	"mel": "mel",
+	"milho": "milho",
+	"novelo": "novelo",
+	"osso": "osso",
+	"noz": "noz"
+}
+
+var animal_to_animal: Dictionary = {
+	"macaco": "macaco",
+	"cavalo": "cavalo",
+	"elefante": "elefante",
+	"girafa": "girafa",
+	"peixe": "peixe",
+	"leao": "leao",
+	"coelho": "coelho",
+	"abelha": "abelha",
+	"pinguim": "pinguim",
+	"porco": "porco",
+	"vaca": "vaca",
+	"urso": "urso",
+	"galinha": "galinha",
+	"gato": "gato",
+	"cachorro": "cachorro",
+	"esquilo": "esquilo"
+}
+
+var item_to_item: Dictionary = {
+	"macaco": "macaco",
+	"cavalo": "cavalo",
+	"elefante": "elefante",
+	"girafa": "girafa",
+	"peixe": "peixe",
+	"leao": "leao",
+	"coelho": "coelho",
+	"abelha": "abelha",
+	"pinguim": "pinguim",
+	"porco": "porco",
+	"vaca": "vaca",
+	"urso": "urso",
+	"galinha": "galinha",
+	"gato": "gato",
+	"cachorro": "cachorro",
+	"esquilo": "esquilo",
+	"banana": "banana",
+	"maca": "maca",
+	"amendoim": "amendoim",
+	"arvore": "arvore",
+	"aquario": "aquario",
+	"carne": "carne",
+	"cenoura": "cenoura",
+	"flor": "flor",
+	"gelo": "gelo",
+	"lama": "lama",
+	"leite": "leite",
+	"mel": "mel",
+	"milho": "milho",
+	"novelo": "novelo",
+	"osso": "osso",
+	"noz": "noz"
+}
+
+var itens_array: Array = [
+	"macaco", "cavalo", "elefante", "girafa", "peixe",
+	"leao", "coelho", "abelha", "pinguim", "porco", 
+	"vaca", "urso", "galinha", "gato", "cachorro", "esquilo",
+	"banana", "maca", "amendoim", "arvore", "aquario",
+	"carne", "cenoura", "flor", "gelo", "lama",
+	"leite", "mel", "milho", "novelo", "osso", "noz"
+	]
+
+#MUDAR ISSO AQUI PARA PEGAR ITEM ALEATORIO DE LISTA JA TRIMADA
+var current_item: String = get_random_item()
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
+var trimmed_dict: Dictionary
 
 func _ready() -> void:
-	show_new_fruit()
+	if Globals.game_mode 	== "Parear": 	trimmed_dict = trim_items_list(fruit_to_animal)
+	elif Globals.game_mode 	== "Associar": 	trimmed_dict = trim_items_list(item_to_item)
+	print(trimmed_dict)
+	display_item()
+	display_buttons()
 
-func show_new_fruit() -> void:
-	var fruits_keys_list = fruit_to_animal.keys()
-	current_fruit = random_fruit(fruits_keys_list)
-	$Fruit.set_fruit_image(current_fruit)
-	#if Globals.shuffle_animals:
-	$AnimalsManager.set_animal_buttons(fruit_to_animal.values(), fruit_to_animal[current_fruit])
+func display_item():
+	$Item.set_item_image(current_item)
 
-func check_selection(selected_animal: String) -> bool:
-	var is_correct = fruit_to_animal[current_fruit] == selected_animal
-	if is_correct: logger.log_correct_answer(selected_animal)
-	#print(logger.log_correct_answer(selected_animal) if is_correct else "Errado!")
-	show_new_fruit()
+func display_buttons():
+	if Globals.game_mode 	== "Parear": 	$GridManager.setup_grid(trimmed_dict.values(), current_item)
+	elif Globals.game_mode 	== "Associar": 	$GridManager.setup_grid(trimmed_dict.values(), current_item)
+	
+func check_selection(selected_item: String) -> bool:
+	var is_correct: bool = false
+	if Globals.game_mode == "Parear":
+		is_correct = item_to_item[current_item] == selected_item
+		if is_correct: logger.log_correct_answer(selected_item)
+	elif Globals.game_mode == "Associar":
+		is_correct = fruit_to_animal[current_item] == selected_item
+		if is_correct: logger.log_correct_answer(selected_item)
+
+	display_item()
 	return is_correct
 
-func random_fruit(fruits_list: Array) -> String:
-	return fruits_list[randi() % fruits_list.size()]
+func trim_items_list(itens_dict: Dictionary) -> Dictionary:
+	var keys_list = itens_dict.keys()
+	keys_list.shuffle()
+	var selected_keys = keys_list.slice(0, min(Globals.current_columns * Globals.current_rows, keys_list.size()))
+	var new_dict = {}
+	for key in selected_keys:
+		new_dict[key] = itens_dict[key]
+	return new_dict
 
-func set_fruit_image(fruit: String) -> void:
-	$Fruit.set_fruit_image(current_fruit)
-
-func set_animal_image(animals_values_array: Array, current_animal: String) -> void:
-	$AnimalsManager.set_animal_buttons(animals_values_array, current_animal)
+func get_random_item() -> String:
+	return itens_array[randi() % itens_array.size()]
 
 func _exit_tree():
 	logger.save_logs()
+	
+
+#func set_fruit_image(fruit: String) -> void:
+	#$Fruit.set_fruit_image(current_fruit)
+#func set_animal_image(animals_values_array: Array, current_animal: String) -> void:
+	#$AnimalsManager.set_animal_buttons(animals_values_array, current_animal)
