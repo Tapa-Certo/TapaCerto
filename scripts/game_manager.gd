@@ -105,8 +105,9 @@ var itens_array: Array = [
 var current_item: String = get_random_item()
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 var trimmed_dict: Dictionary
-
+var hud
 func _ready() -> void:
+	hud = get_node("/root/Main/ScreensManager/Hud")
 	if Globals.game_mode 	== "Parear": 	trimmed_dict = trim_items_list(fruit_to_animal)
 	elif Globals.game_mode 	== "Associar": 	trimmed_dict = trim_items_list(item_to_item)
 	print(trimmed_dict)
@@ -114,7 +115,8 @@ func _ready() -> void:
 	display_buttons()
 
 func display_item():
-	$Item.set_item_image(current_item)
+	var item = hud.get_node("Control/ItemDisplay/Item")
+	item.set_item_image(current_item)
 
 func display_buttons():
 	if Globals.game_mode 	== "Parear": 	$GridManager.setup_grid(trimmed_dict.values(), current_item)
