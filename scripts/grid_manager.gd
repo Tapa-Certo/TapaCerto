@@ -24,10 +24,15 @@ func _on_item_selected(selected_item: String) -> void:
 		hide_cell(selected_item)
 
 func clear_grid() -> void:
+	var children_to_remove = []
 	for child in get_children():
-		print(child)
+		children_to_remove.append(child)
+	
+	for child in children_to_remove:
 		child.queue_free()
-		
+	
+	await get_tree().process_frame
+
 func hide_cell(cell_name: String) -> void:
 	for child in get_children():
 		if child.name == cell_name:

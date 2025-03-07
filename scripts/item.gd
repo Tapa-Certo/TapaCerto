@@ -3,6 +3,7 @@ extends TextureRect
 @export var custom_size = Vector2(50, 50)
 
 func set_item_image(item_name: String) -> void:
+	print(item_name)
 	texture = load("res://assets/images/%s.png" % item_name)
 	
 	var texture_size = texture.get_size()

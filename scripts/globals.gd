@@ -11,7 +11,7 @@ var show_hints: bool = true
 var enable_sound: bool = false
 
 var difficulty_level: String = "normal" #facil, normal, dificil
-var game_mode: String = "Parear" #ou "Associar"
+var game_mode: String = "Associar" #ou "Associar"
 
 var max_rows = 4
 var max_columns = 4

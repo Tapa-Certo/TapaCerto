@@ -114,6 +114,9 @@ var item
 func _ready() -> void:
 	hud = get_node("/root/Main/ScreensManager/Hud")
 	item = hud.get_node("Control/ItemDisplay/Item")
+	reset_game()
+	
+func reset_game() -> void:
 	trimmed_dict = trim_list()
 	select_current_item()
 	display_item()
@@ -133,7 +136,7 @@ func select_current_item() -> void:
 	current_item_value = current_item[1]
 	
 func display_item() -> void:
-	item.set_item_image(current_item_value)
+	item.set_item_image(current_item_key)
 	item.position = Vector2(0,0)
 
 func display_buttons():
@@ -145,22 +148,27 @@ func display_buttons():
 func check_selection(selected_item: String) -> bool:
 	var is_correct: bool = false
 	if Globals.game_mode == "Parear":
-		is_correct = item_to_item[current_item_value] == selected_item
+		is_correct = fruit_to_animal[current_item_key] == selected_item
 		if is_correct: 
 			trimmed_dict.erase(current_item_key)
 			if is_dict_empty():
-				trimmed_dict = trim_list()
-				select_current_item()
-				display_buttons()
+				reset_game()
 			else:
 				select_current_item()
+				display_item()
+				display_buttons()
 			logger.log_correct_answer(selected_item)
 	elif Globals.game_mode == "Associar":
-		is_correct = fruit_to_animal[current_item_value] == selected_item
-		if is_correct: 
+		is_correct = item_to_item[current_item_value] == selected_item
+		if is_correct:
+			trimmed_dict.erase(current_item_key)
+			if is_dict_empty():
+				reset_game()
+			else:
+				select_current_item()
+				display_item()
+				display_buttons()
 			logger.log_correct_answer(selected_item)
-
-	display_item()
 	return is_correct
 
 func trim_items_list(itens_dict: Dictionary) -> Dictionary:
@@ -172,7 +180,6 @@ func trim_items_list(itens_dict: Dictionary) -> Dictionary:
 	var new_dict = {}
 	for key in selected_keys:
 		new_dict[key] = itens_dict[key]
-	print(new_dict)
 	return new_dict
 	
 func is_dict_empty() -> bool:
