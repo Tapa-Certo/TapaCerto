@@ -3,20 +3,32 @@ extends GridContainer
 func _ready():
 	columns = Globals.current_columns
 	
-func setup_grid(items_array: Array, correct_item: String) -> void:
+
+		
+func setup_grid(items_array: Array, correct_item: String) -> void:	
 	clear_grid()
 	if Globals.shuffle_grid: items_array = shuffle_items_array(items_array)
 	
 	for item in items_array:
-		var button = Button.new()
-		button.text = ""
-		#button.icon = load("res://assets/images/%s/%s.png" % [get_item_type(item), item])
-		button.icon = load("res://assets/images/%s.png" % item)
-		button.expand_icon = true
-		button.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		button.pressed.connect(_on_item_selected.bind(item))
-		button.custom_minimum_size = Vector2(75, 75)
+		var button = TextureButton.new()
+		button.texture_normal = load("res://assets/Quadrado Display.png")
+		button.custom_minimum_size = Vector2(25, 25)
 		button.name = item
+		button.pressed.connect(_on_item_selected.bind(item))
+		
+		var item_texture = TextureRect.new()
+		item_texture.texture = load("res://assets/images/%s.png" % item)
+		
+		item_texture.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		item_texture.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		item_texture.custom_minimum_size = Vector2(85, 85)
+		
+		item_texture.anchor_left = 0.25
+		item_texture.anchor_right = 0.25
+		item_texture.anchor_top = 0.25
+		item_texture.anchor_bottom = 0.25
+
+		button.add_child(item_texture)
 		add_child(button)
 
 func _on_item_selected(selected_item: String) -> void:
