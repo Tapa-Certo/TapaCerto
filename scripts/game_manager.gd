@@ -105,6 +105,7 @@ var itens_array: Array = [
 var current_item_value: String
 var current_item_key: String
 var current_item: Array
+var matched_items: Array = []
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 
 var trimmed_dict: Dictionary
@@ -117,10 +118,12 @@ func _ready() -> void:
 	reset_game()
 	
 func reset_game() -> void:
+	matched_items = []
 	trimmed_dict = trim_list()
+	$GridManager.setup_grid(trimmed_dict.values())
 	select_current_item()
 	display_item()
-	display_buttons()
+	#display_buttons()
 
 func trim_list() -> Dictionary:
 	if Globals.game_mode 	== "Parear": 
@@ -131,45 +134,59 @@ func trim_list() -> Dictionary:
 	return {}
 	
 func select_current_item() -> void:
-	current_item = get_random_item()
-	current_item_key = current_item[0]
-	current_item_value = current_item[1]
+	var attempts = 0
+	var max_attempts = trimmed_dict.size() * 2
+	
+	while attempts < max_attempts:
+		current_item = get_random_item()
+		current_item_key = current_item[0]
+		current_item_value = current_item[1]
+		if not matched_items.has(current_item_key):
+			return
+		attempts += 1
+	reset_game()
 	
 func display_item() -> void:
 	item.set_item_image(current_item_key)
 	item.position = Vector2(0,0)
 
-func display_buttons():
+"""func display_buttons():
 	if Globals.game_mode 	== "Parear": 
 		$GridManager.setup_grid(trimmed_dict.values(), current_item_value)
 	elif Globals.game_mode 	== "Associar": 
-		$GridManager.setup_grid(trimmed_dict.values(), current_item_value)
+		$GridManager.setup_grid(trimmed_dict.values(), current_item_value)"""
 	
 func check_selection(selected_item: String) -> bool:
 	var is_correct: bool = false
 	if Globals.game_mode == "Parear":
 		is_correct = fruit_to_animal[current_item_key] == selected_item
 		if is_correct: 
+			#TEM QUE MUDAR ISSO AQUI PARA NAO APAGAR DA LISTA
 			trimmed_dict.erase(current_item_key)
 			if is_dict_empty():
 				reset_game()
 			else:
 				select_current_item()
 				display_item()
-				display_buttons()
+				#display_buttons()
 			logger.log_correct_answer(selected_item)
 	elif Globals.game_mode == "Associar":
 		is_correct = item_to_item[current_item_value] == selected_item
 		if is_correct:
-			trimmed_dict.erase(current_item_key)
-			if is_dict_empty():
+			matched_items.append(current_item_value)
+			$GridManager.disable_button(selected_item)
+			logger.log_correct_answer(selected_item)
+			if all_items_matched():
 				reset_game()
 			else:
 				select_current_item()
 				display_item()
-				display_buttons()
+				#display_buttons()
 			logger.log_correct_answer(selected_item)
 	return is_correct
+
+func all_items_matched() -> bool:
+	return matched_items.size() >= trimmed_dict.size()
 
 func trim_items_list(itens_dict: Dictionary) -> Dictionary:
 	var keys_list = itens_dict.keys()
@@ -193,7 +210,6 @@ func get_random_item() -> Array:
 
 func _exit_tree():
 	logger.save_logs()
-	
 
 #func set_fruit_image(fruit: String) -> void:
 	#$Fruit.set_fruit_image(current_fruit)
