@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://qi8owuakqxi4"
-path="res://.godot/imported/Botao Dados.png-2bc1160bc88fdf15ebd72b00a5af84a1.ctex"
+uid="uid://bx3665lrdbcbx"
+path="res://.godot/imported/BG-Jungle.png-2d53707a455f94e143c431fe9ce28781.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Botao Dados.png"
-dest_files=["res://.godot/imported/Botao Dados.png-2bc1160bc88fdf15ebd72b00a5af84a1.ctex"]
+source_file="res://assets/UI/Background/BG-Jungle.png"
+dest_files=["res://.godot/imported/BG-Jungle.png-2d53707a455f94e143c431fe9ce28781.ctex"]
 
 [params]
 

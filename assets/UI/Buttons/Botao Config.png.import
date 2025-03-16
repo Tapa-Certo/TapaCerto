@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://du1q478logicj"
-path="res://.godot/imported/Botao Config.png-16dd330ea5bb09e9a323dd73f0138e96.ctex"
+path="res://.godot/imported/Botao Config.png-c134e2c8da78b51265a263c9ef6e5805.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Botao Config.png"
-dest_files=["res://.godot/imported/Botao Config.png-16dd330ea5bb09e9a323dd73f0138e96.ctex"]
+source_file="res://assets/UI/Buttons/Botao Config.png"
+dest_files=["res://.godot/imported/Botao Config.png-c134e2c8da78b51265a263c9ef6e5805.ctex"]
 
 [params]
 

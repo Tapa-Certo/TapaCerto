@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcne8og8c17se"
-path="res://.godot/imported/Barra Roxa.png-5d1e2e78ecd980eaa82dde819aa6838e.ctex"
+uid="uid://qi8owuakqxi4"
+path="res://.godot/imported/Botao Dados.png-797276bb1c35ef15ff0068b2af965837.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Barra Roxa.png"
-dest_files=["res://.godot/imported/Barra Roxa.png-5d1e2e78ecd980eaa82dde819aa6838e.ctex"]
+source_file="res://assets/UI/Buttons/Botao Dados.png"
+dest_files=["res://.godot/imported/Botao Dados.png-797276bb1c35ef15ff0068b2af965837.ctex"]
 
 [params]
 

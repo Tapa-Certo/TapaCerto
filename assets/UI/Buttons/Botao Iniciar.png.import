@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8n8pux42u4jt"
-path="res://.godot/imported/Proximo Item.png-17d67c514d9ff3570f4bc361336bd355.ctex"
+uid="uid://btw3ov8frretb"
+path="res://.godot/imported/Botao Iniciar.png-dafa3cef07ff07c115b0c1a34bf8c8ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Proximo Item.png"
-dest_files=["res://.godot/imported/Proximo Item.png-17d67c514d9ff3570f4bc361336bd355.ctex"]
+source_file="res://assets/UI/Buttons/Botao Iniciar.png"
+dest_files=["res://.godot/imported/Botao Iniciar.png-dafa3cef07ff07c115b0c1a34bf8c8ac.ctex"]
 
 [params]
 

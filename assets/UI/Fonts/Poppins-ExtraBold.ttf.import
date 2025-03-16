@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://bnbyx8dq7i002"
-path="res://.godot/imported/Poppins-ExtraBold.ttf-3baf79075598e5b7b513876790c2a932.fontdata"
+path="res://.godot/imported/Poppins-ExtraBold.ttf-440c9e3e4298bcaecad3bdc1503a508d.fontdata"
 
 [deps]
 
-source_file="res://assets/Poppins-ExtraBold.ttf"
-dest_files=["res://.godot/imported/Poppins-ExtraBold.ttf-3baf79075598e5b7b513876790c2a932.fontdata"]
+source_file="res://assets/UI/Fonts/Poppins-ExtraBold.ttf"
+dest_files=["res://.godot/imported/Poppins-ExtraBold.ttf-440c9e3e4298bcaecad3bdc1503a508d.fontdata"]
 
 [params]
 
