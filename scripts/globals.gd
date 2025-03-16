@@ -10,13 +10,21 @@ var shuffle_grid: bool = false
 var show_hints: bool = true
 var enable_sound: bool = false
 
-var difficulty_level: String = "normal" #facil, normal, dificil
-var game_mode: String = "Associar" #ou "Associar"
+#facil, normal, dificil
+var difficulty_level: String = "normal" 
+#"Parear" ou "Associar"
+var game_mode: String = "Associar" 
+
+var items_oppacity: Color = Color(1, 1, 1, 0.3) #0.0 item some #0.3 item transparente #1 item aparente normalmente #DEIXAR UMA MAX DE ATE 0.5
+var item_size: Vector2 = Vector2(115,115) #LEMBRAR QUE ABAIXO DE 75 ELE DESCENTRALIZA E ACIMA DE 100 TABMEM
 
 var max_rows = 4
 var max_columns = 4
-var current_rows = 2  
+#++++++++++++++++++++++++++++++++++++++++++++++++++++#
+#NAO TA FUNCIONANDO
+var current_rows = 2 
 var current_columns = 4
+#++++++++++++++++++++++++++++++++++++++++++++++++++++#
 
 #Criar logica para que ao mudar a dificuldade as outras configuracoes mudem automaticamente
 func _ready():
