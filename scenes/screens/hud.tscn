@@ -105,10 +105,10 @@ metadata/_edit_use_anchors_ = true
 [node name="Buttons" type="VBoxContainer" parent="Control2/MarginContainer"]
 layout_mode = 2
 
-[node name="Home" type="TextureButton" parent="Control2/MarginContainer/Buttons"]
+[node name="Home" type="TextureButton" parent="Control2/MarginContainer/Buttons" groups=["buttons"]]
 layout_mode = 2
 texture_normal = ExtResource("6_vinbl")
 
-[node name="Config" type="TextureButton" parent="Control2/MarginContainer/Buttons"]
+[node name="Configs" type="TextureButton" parent="Control2/MarginContainer/Buttons" groups=["buttons"]]
 layout_mode = 2
 texture_normal = ExtResource("7_3ywdm")

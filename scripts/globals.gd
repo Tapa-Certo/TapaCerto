@@ -16,15 +16,142 @@ var difficulty_level: String = "normal"
 var game_mode: String = "Associar" 
 
 var items_oppacity: Color = Color(1, 1, 1, 0.3) #0.0 item some #0.3 item transparente #1 item aparente normalmente #DEIXAR UMA MAX DE ATE 0.5
-var item_size: Vector2 = Vector2(115,115) #LEMBRAR QUE ABAIXO DE 75 ELE DESCENTRALIZA E ACIMA DE 100 TABMEM
+var item_size: Vector2 = Vector2(100,100) #LEMBRAR QUE ABAIXO DE 75 ELE DESCENTRALIZA E ACIMA DE 100 TABMEM
 
 var max_rows = 4
 var max_columns = 4
-#++++++++++++++++++++++++++++++++++++++++++++++++++++#
-#NAO TA FUNCIONANDO
-var current_rows = 2 
-var current_columns = 4
-#++++++++++++++++++++++++++++++++++++++++++++++++++++#
+
+var current_rows = 5
+var current_columns = 6
+
+var fruit_to_animal: Dictionary = {
+	"banana": "macaco",
+	"maca": "cavalo",
+	"amendoim": "elefante",
+	"arvore": "girafa",
+	"aquario": "peixe",
+	"carne": "leao",
+	"cenoura": "coelho",
+	"flor": "abelha",
+	"gelo": "pinguim",
+	"lama": "porco",
+	"leite": "vaca",
+	"mel": "urso",
+	"milho": "galinha",
+	"novelo": "gato",
+	"osso": "cachorro",
+	"noz": "esquilo"
+}
+
+var fruit_to_fruit: Dictionary = {
+	"banana": "banana",
+	"maca": "maca",
+	"amendoim": "amendoim",
+	"arvore": "arvore",
+	"aquario": "aquario",
+	"carne": "carne",
+	"cenoura": "cenoura",
+	"flor": "flor",
+	"gelo": "gelo",
+	"lama": "lama",
+	"leite": "leite",
+	"mel": "mel",
+	"milho": "milho",
+	"novelo": "novelo",
+	"osso": "osso",
+	"noz": "noz"
+}
+
+var animal_to_animal: Dictionary = {
+	"macaco": "macaco",
+	"cavalo": "cavalo",
+	"elefante": "elefante",
+	"girafa": "girafa",
+	"peixe": "peixe",
+	"leao": "leao",
+	"coelho": "coelho",
+	"abelha": "abelha",
+	"pinguim": "pinguim",
+	"porco": "porco",
+	"vaca": "vaca",
+	"urso": "urso",
+	"galinha": "galinha",
+	"gato": "gato",
+	"cachorro": "cachorro",
+	"esquilo": "esquilo"
+}
+
+var item_to_item: Dictionary = {
+	"macaco": "macaco",
+	"cavalo": "cavalo",
+	"elefante": "elefante",
+	"girafa": "girafa",
+	"peixe": "peixe",
+	"leao": "leao",
+	"coelho": "coelho",
+	"abelha": "abelha",
+	"pinguim": "pinguim",
+	"porco": "porco",
+	"vaca": "vaca",
+	"urso": "urso",
+	"galinha": "galinha",
+	"gato": "gato",
+	"cachorro": "cachorro",
+	"esquilo": "esquilo",
+	"banana": "banana",
+	"maca": "maca",
+	"amendoim": "amendoim",
+	"arvore": "arvore",
+	"aquario": "aquario",
+	"carne": "carne",
+	"cenoura": "cenoura",
+	"flor": "flor",
+	"gelo": "gelo",
+	"lama": "lama",
+	"leite": "leite",
+	"mel": "mel",
+	"milho": "milho",
+	"novelo": "novelo",
+	"osso": "osso",
+	"noz": "noz"
+}
+
+var itens_array: Array = [
+	"macaco", 
+	"cavalo", 
+	"elefante", 
+	"girafa", 
+	"peixe",
+	"leao", 
+	"coelho", 
+	"abelha", 
+	"pinguim", 
+	"porco", 
+	"vaca", 
+	"urso", 
+	"galinha", 
+	"gato", 
+	"cachorro", 
+	"esquilo",
+	"banana", 
+	"maca", 
+	"amendoim", 
+	"arvore", 
+	"aquario",
+	"carne", 
+	"cenoura", 
+	"flor", 
+	"gelo", 
+	"lama",
+	"leite", 
+	"mel", 
+	"milho", 
+	"novelo", 
+	"osso", 
+	"noz",
+	"passaro",
+	"minhoca"
+	]
 
 #Criar logica para que ao mudar a dificuldade as outras configuracoes mudem automaticamente
 func _ready():
