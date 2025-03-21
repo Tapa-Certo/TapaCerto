@@ -1,14 +1,14 @@
 extends Node
 
-var current_item_value: String
 var current_item_key: String
-var current_item: Array
-var matched_items: Array = []
-var logger = load("res://scripts/data_collector/logger.gd").get_instance()
+var current_item_value: String
 
-var trimmed_dict: Dictionary
+var matched_items: Array = []
+var available_items: Dictionary = {}
+
 var hud
 var item
+var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 
 func _ready() -> void:
 	hud = get_node("/root/Main/ScreensManager/Hud")
@@ -19,7 +19,7 @@ func _ready() -> void:
 	
 func _on_hint_trigger(hint_type: String) -> void:
 	match hint_type:
-		"move":
+		"wrong_attempts":
 			print("Dica de movimento ativada")
 			$GridManager.highlight_correct_item(current_item_value)
 		"shake":
@@ -27,33 +27,59 @@ func _on_hint_trigger(hint_type: String) -> void:
 			$GridManager.shake_correct_item(current_item_value)
 	
 func reset_game() -> void:
-	matched_items = []
-	trimmed_dict = trim_list()
-	$GridManager.setup_grid(trimmed_dict.values())
+	matched_items.clear()
+	_prepare_available_items()
+	$GridManager.setup_grid(available_items.values())
 	select_current_item()
 	display_item()
+	emit_signal("game_reset")
 
-func trim_list() -> Dictionary:
-	if Globals.game_mode 	== "Parear": 
-		return trim_items_list(Globals.fruit_to_animal)
-	elif Globals.game_mode 	== "Associar": 
-		return trim_items_list(Globals.item_to_item)
+func _prepare_available_items() -> void:
+	match Globals.game_mode:
+		"Parear": 
+			available_items = _select_random_items(Globals.item_to_item)
+		"Associar": 
+			available_items = _select_random_items(Globals.item_to_animal)
+		_:
+			available_items = {}
+
+func _select_random_items(source_dict: Dictionary) -> Dictionary:
+	var keys_list = source_dict.keys()
+	keys_list.shuffle()
 	
-	return {}
+	var items_to_select = min(Globals.current_columns * Globals.current_rows, keys_list.size())
+	var selected_keys = keys_list.slice(0, items_to_select)
 	
+	var result_dict = {}
+	for key in selected_keys:
+		result_dict[key] = source_dict[key]
+	
+	return result_dict
+
 func select_current_item() -> void:
-	var attempts = 0
-	var max_attempts = trimmed_dict.size() * 2
+	if available_items.is_empty():
+		reset_game()
+		return
+		
+	var unmatched_items = _get_unmatched_items()
+	if unmatched_items.is_empty():
+		reset_game()
+		return
 	
-	while attempts < max_attempts:
-		current_item = get_random_item()
-		current_item_key = current_item[0]
-		current_item_value = current_item[1]
-		if not matched_items.has(current_item_key):
-			$HintManager.reset_hint_state(current_item_key)
-			return
-		attempts += 1
-	reset_game()
+	var random_index = randi() % unmatched_items.size()
+	var item_pair = unmatched_items[random_index]
+
+	current_item_key = item_pair[0]
+	current_item_value = item_pair[1]
+	$HintManager.reset_hint_state(current_item_key)
+
+func _get_unmatched_items() -> Array:
+	var unmatched = []
+	for key in available_items:
+		if not matched_items.has(key):
+			unmatched.append([key, available_items[key]])
+	
+	return unmatched
 	
 func display_item() -> void:
 	item.set_item_image(current_item_key)
@@ -61,53 +87,30 @@ func display_item() -> void:
 
 func check_selection(selected_item: String) -> bool:
 	var is_correct: bool = false
-	if Globals.game_mode == "Parear":
-		is_correct = Globals.fruit_to_animal[current_item_key] == selected_item
-		if is_correct: 
-			trimmed_dict.erase(current_item_key)
-			if is_dict_empty():
-				reset_game()
-			else:
-				select_current_item()
-				display_item()
-			logger.log_correct_answer(selected_item)
-	elif Globals.game_mode == "Associar":
-		is_correct = Globals.item_to_item[current_item_value] == selected_item
-		$HintManager.register_selection(is_correct)
-		if is_correct:
-			matched_items.append(current_item_value)
-			$GridManager.disable_button(selected_item)
-			logger.log_correct_answer(selected_item)
-			if all_items_matched():
-				reset_game()
-			else:
-				select_current_item()
-				display_item()
-			logger.log_correct_answer(selected_item)
+
+	match Globals.game_mode:
+		"Parear": 
+			is_correct = available_items[current_item_value] == selected_item
+		"Associar": 
+			is_correct = available_items[current_item_key] == selected_item
+	
+	$HintManager.register_selection(is_correct)
+	
+	if is_correct:
+		matched_items.append(current_item_key)
+		$GridManager.disable_button(selected_item)
+		
+		if all_items_matched():
+			reset_game()
+		else:
+			select_current_item()
+			display_item()
+		logger.log_correct_answer(selected_item)
+		
 	return is_correct
 
 func all_items_matched() -> bool:
-	return matched_items.size() >= trimmed_dict.size()
-
-func trim_items_list(itens_dict: Dictionary) -> Dictionary:
-	var keys_list = itens_dict.keys()
-	keys_list.shuffle()
-	#MELHORAR ISSO AQUI PARA PEGAR ITENS ALEATORIOS PELA CHAVE
-	var selected_keys = keys_list.slice(0, min(Globals.current_columns * Globals.current_rows, keys_list.size()))
-	#var selected_keys = keys_list.slice(0, 8)
-	var new_dict = {}
-	for key in selected_keys:
-		new_dict[key] = itens_dict[key]
-	return new_dict
-	
-func is_dict_empty() -> bool:
-	return true if trimmed_dict.size() <= 0 else false
-
-func get_random_item() -> Array:
-	var keys = trimmed_dict.keys()
-	var values = trimmed_dict.values()
-	var random = randi() % keys.size()
-	return [keys[random], values[random]]
+	return matched_items.size() >= available_items.size()
 
 func _exit_tree():
 	logger.save_logs()

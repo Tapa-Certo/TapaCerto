@@ -1,7 +1,7 @@
 extends Node
 
-@export var hint_time_threshold: float = 10.0
-@export var hint_missclick_threshold: int = 3
+@export var hint_time_threshold: float = 2.5
+@export var hint_missclick_threshold: int = 1
 @export var max_wrong_attempts: int = 3  
 @export var reduction_time_value: float = 1.5
 
@@ -16,7 +16,7 @@ func _process(delta) -> void:
 	if !Globals.show_hints: return
 	time_since_last_selection += delta
 	if time_since_last_selection >= hint_time_threshold and not hint_triggered:
-		trigger_hint("move")
+		trigger_hint("shake")
 		hint_triggered = true
 func trigger_hint(hint_type: String):
 	emit_signal("hint_trigger", hint_type)
@@ -30,7 +30,11 @@ func reset_hint_state(fruit: String):
 func register_selection(is_correct: bool):
 	time_since_last_selection = 0.0
 	hint_triggered = false
-	if not is_correct:
+	if is_correct:
+		hint_triggered = false
+		incorrect_attempts = 0
+	else:
 		incorrect_attempts += 1
-		if incorrect_attempts >= hint_missclick_threshold:
-			trigger_hint("wrong_attemps")
+		if incorrect_attempts >= max_wrong_attempts:
+			trigger_hint("wrong_attempts")
+			hint_triggered = true

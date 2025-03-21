@@ -13,7 +13,12 @@ var enable_sound: bool = false
 #facil, normal, dificil
 var difficulty_level: String = "normal" 
 #"Parear" ou "Associar"
-var game_mode: String = "Associar" 
+var game_mode: String = "Parear" 
+
+const HIGHLIGHT_COLOR = Color(1, 1, 1)  # Verde claro
+const SHAKE_INTENSITY = 8.0
+const SHAKE_DURATION = 0.4
+
 
 var items_oppacity: Color = Color(1, 1, 1, 0.3) #0.0 item some #0.3 item transparente #1 item aparente normalmente #DEIXAR UMA MAX DE ATE 0.5
 var item_size: Vector2 = Vector2(100,100) #LEMBRAR QUE ABAIXO DE 75 ELE DESCENTRALIZA E ACIMA DE 100 TABMEM
@@ -21,10 +26,10 @@ var item_size: Vector2 = Vector2(100,100) #LEMBRAR QUE ABAIXO DE 75 ELE DESCENTR
 var max_rows = 4
 var max_columns = 4
 
-var current_rows = 5
-var current_columns = 6
+var current_rows = 3
+var current_columns = 4
 
-var fruit_to_animal: Dictionary = {
+var item_to_animal: Dictionary = {
 	"banana": "macaco",
 	"maca": "cavalo",
 	"amendoim": "elefante",
@@ -41,44 +46,6 @@ var fruit_to_animal: Dictionary = {
 	"novelo": "gato",
 	"osso": "cachorro",
 	"noz": "esquilo"
-}
-
-var fruit_to_fruit: Dictionary = {
-	"banana": "banana",
-	"maca": "maca",
-	"amendoim": "amendoim",
-	"arvore": "arvore",
-	"aquario": "aquario",
-	"carne": "carne",
-	"cenoura": "cenoura",
-	"flor": "flor",
-	"gelo": "gelo",
-	"lama": "lama",
-	"leite": "leite",
-	"mel": "mel",
-	"milho": "milho",
-	"novelo": "novelo",
-	"osso": "osso",
-	"noz": "noz"
-}
-
-var animal_to_animal: Dictionary = {
-	"macaco": "macaco",
-	"cavalo": "cavalo",
-	"elefante": "elefante",
-	"girafa": "girafa",
-	"peixe": "peixe",
-	"leao": "leao",
-	"coelho": "coelho",
-	"abelha": "abelha",
-	"pinguim": "pinguim",
-	"porco": "porco",
-	"vaca": "vaca",
-	"urso": "urso",
-	"galinha": "galinha",
-	"gato": "gato",
-	"cachorro": "cachorro",
-	"esquilo": "esquilo"
 }
 
 var item_to_item: Dictionary = {
@@ -205,3 +172,61 @@ func set_sfx_volume(value: float):
 	#FAZER LOGICA PARA ATUALIZAR VOLUME
 	save_settings()
 
+
+"""
+var animal_to_fruit: Dictionary = {
+	"macaco": "banana",
+	"cavalo": "maca",
+	"elefante": "amendoim",
+	"girafa": "arvore",
+	"peixe": "aquario",
+	"leao": "carne",
+	"coelho": "cenoura",
+	"abelha": "flor",
+	"pinguim": "gelo",
+	"porco": "lama",
+	"vaca": "leite",
+	"urso": "mel",
+	"galinha": "milho",
+	"gato": "novelo",
+	"cachorro": "osso",
+	"esquilo": "noz"
+}
+
+var fruit_to_fruit: Dictionary = {
+	"banana": "banana",
+	"maca": "maca",
+	"amendoim": "amendoim",
+	"arvore": "arvore",
+	"aquario": "aquario",
+	"carne": "carne",
+	"cenoura": "cenoura",
+	"flor": "flor",
+	"gelo": "gelo",
+	"lama": "lama",
+	"leite": "leite",
+	"mel": "mel",
+	"milho": "milho",
+	"novelo": "novelo",
+	"osso": "osso",
+	"noz": "noz"
+}
+
+var animal_to_animal: Dictionary = {
+	"macaco": "macaco",
+	"cavalo": "cavalo",
+	"elefante": "elefante",
+	"girafa": "girafa",
+	"peixe": "peixe",
+	"leao": "leao",
+	"coelho": "coelho",
+	"abelha": "abelha",
+	"pinguim": "pinguim",
+	"porco": "porco",
+	"vaca": "vaca",
+	"urso": "urso",
+	"galinha": "galinha",
+	"gato": "gato",
+	"cachorro": "cachorro",
+	"esquilo": "esquilo"
+}"""
