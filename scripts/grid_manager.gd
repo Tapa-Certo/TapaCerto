@@ -1,22 +1,18 @@
 extends GridContainer
-var original_positions = {}
-var original_scales = {}
+var original_positions = {} # ???
+var original_scales = {}	# ???
 func _ready():
 	columns = Globals.current_columns
 	get_viewport().size_changed.connect(_update_grid_layout)
 	_update_grid_layout()
 	
 func _update_grid_layout():
-	# Calcular o tamanho adequado para os botões com base no layout atual
-	var viewport_size = get_viewport().size
-	var available_width = viewport_size.x * 0.6 # 80% da largura da viewport
-	var available_height = viewport_size.y * 0.6  # 80% da altura da viewport
 	
 	# Determinar número de linhas
 	var rows = ceil(float(get_child_count()) / columns)
 	
 	# Calcular tamanho dos botões
-	var button_size = min(available_width / columns, available_height / rows) - 10  # -10 para espaçamento
+	var button_size = min(Globals.available_width / columns, Globals.available_height / rows) - 10  # -10 para espaçamento
 	
 	# Atualizar tamanho dos botões e itens internos
 	for button in get_children():

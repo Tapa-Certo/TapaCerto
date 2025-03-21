@@ -105,12 +105,16 @@ func check_selection(selected_item: String) -> bool:
 		else:
 			select_current_item()
 			display_item()
-		logger.log_correct_answer(selected_item)
-		
+		#logger.log_correct_answer(selected_item)
+		logger.get_instance().log_correct_answer(selected_item)
+	else: 
+		logger.get_instance().log_incorrect_answer()
+	
 	return is_correct
 
 func all_items_matched() -> bool:
 	return matched_items.size() >= available_items.size()
 
 func _exit_tree():
-	logger.save_logs()
+	#logger.save_logs()
+	logger.get_instance().save_logs()
