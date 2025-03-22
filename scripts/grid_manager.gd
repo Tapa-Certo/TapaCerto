@@ -1,18 +1,21 @@
 extends GridContainer
-var original_positions = {} # ???
-var original_scales = {}	# ???
+
 func _ready():
 	columns = Globals.current_columns
 	get_viewport().size_changed.connect(_update_grid_layout)
-	_update_grid_layout()
+	#_update_grid_layout()
 	
 func _update_grid_layout():
 	
+	var viewport_size = get_viewport().size
+	var available_width = viewport_size.x * 0.6 # 80% da largura da viewport
+	var available_height = viewport_size.y * 0.6  # 80% da altura da viewport
+
 	# Determinar número de linhas
 	var rows = ceil(float(get_child_count()) / columns)
-	
+
 	# Calcular tamanho dos botões
-	var button_size = min(Globals.available_width / columns, Globals.available_height / rows) - 10  # -10 para espaçamento
+	var button_size = min(available_width / columns, available_height / rows) - 10  # -10 para espaçamento
 	
 	# Atualizar tamanho dos botões e itens internos
 	for button in get_children():
@@ -41,7 +44,7 @@ func highlight_correct_item(correct_item: String):
 		tween.tween_property(button, "modulate", highlight_color, 0.15)
 		tween.tween_property(button, "modulate", Color.WHITE, 0.15)
 		tween.set_loops(3)
-			
+
 func shake_correct_item(correct_item: String):
 	const SHAKE_ANGLE: float = 8.0  # Graus de rotação
 	const SHAKE_DURATION: float = 0.4

@@ -22,10 +22,11 @@ func _on_hint_trigger(hint_type: String) -> void:
 		"wrong_attempts":
 			print("Dica de movimento ativada")
 			$GridManager.highlight_correct_item(current_item_value)
+			
 		"shake":
 			print("Dica de chacoalhar ativada")
 			$GridManager.shake_correct_item(current_item_value)
-	
+	$HintManager.reset_hint_state(current_item_key)
 func reset_game() -> void:
 	matched_items.clear()
 	_prepare_available_items()

@@ -32,7 +32,7 @@ func _on_button_pressed(button):
 		"Configs":
 			change_screen($Configs) 
 		"Data":
-			change_screen($Data)
+			#change_screen($Data)
 		"Home":
 			change_screen($Menu) 
 			

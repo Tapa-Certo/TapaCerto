@@ -29,17 +29,6 @@ var max_columns = 4
 var current_rows = 3
 var current_columns = 4
 
-# Variaveis do hint_manager
-var time_since_last_selection: float = 0.0
-var incorrect_attempts: int = 0
-var current_fruit: String = ""
-var hint_triggered: bool = false
-
-# Variaveis do grid_manager
-var viewport_size = get_viewport().size
-var available_width = viewport_size.x * 0.6 # 80% da largura da viewport
-var available_height = viewport_size.y * 0.6  # 80% da altura da viewport
-
 
 var item_to_animal: Dictionary = {
 	"banana": "macaco",
