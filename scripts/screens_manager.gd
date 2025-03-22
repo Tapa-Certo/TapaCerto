@@ -32,6 +32,7 @@ func _on_button_pressed(button):
 		"Configs":
 			change_screen($Configs) 
 		"Data":
+			pass
 			#change_screen($Data)
 		"Home":
 			change_screen($Menu) 
