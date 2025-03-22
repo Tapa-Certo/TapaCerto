@@ -5,12 +5,14 @@ signal start_game
 
 #var music_buttons = {true: preload("res://Sprites/flat-dark/flatDark16.png"), false: preload("res://Sprites/flat-dark/flatDark18.png")}
 #var sound_buttons = {true: preload("res://Sprites/flat-dark/flatDark12.png"), false: preload("res://Sprites/flat-dark/flatDark14.png")}
+var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 var current_screen = null
 var timer
 var time: float = 0.5
 func _ready():
 	register_buttons()
 	change_screen($Menu)
+	print(logger)
 
 func register_buttons():
 	var buttons = get_tree().get_nodes_in_group("buttons")
@@ -29,10 +31,11 @@ func _on_button_pressed(button):
 		"Start":
 			$Hud.show()
 			change_screen($Game)
+			#logger._create_log_entry()
 		"Configs":
 			change_screen($Configs) 
 		"Data":
-			pass
+			logger.save_logs()
 			#change_screen($Data)
 		"Home":
 			change_screen($Menu) 

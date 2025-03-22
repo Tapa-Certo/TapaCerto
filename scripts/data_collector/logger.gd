@@ -1,9 +1,7 @@
 extends Node
-
-var _log_data: Array = []
-var _session_start_time: int
+var log_data: Array = []
+var session_start_time: int
 static var _instance: Logger = null
-
 var start_time: int = 0
 var definitive_time: int = 0
 var number_of_corrects: int = 0
@@ -18,19 +16,21 @@ static func get_instance() -> Node:
 	return _instance
 
 func _init():
-	_session_start_time = Time.get_unix_time_from_system()
+	session_start_time = Time.get_unix_time_from_system()
 
-func _create_log_entry(event_type: String, time_action: int, details: Dictionary = {}) -> Dictionary:
+func create_log_entry(event_type: String, time_action: int, details: Dictionary = {}) -> Dictionary:
+	print("Log criado")
 	var entry = {
 		"time_elapsed": time_action,
 		"event_type": event_type,
 	}
 	entry.merge(details)
-	_log_data.append(entry)
+	log_data.append(entry)
 	return entry
 
 func log_button_click(animal_selected: String, current_fruit: String):
-	_create_log_entry("button_click", start_timer(), {
+	start_timer()
+	create_log_entry("button_click", 0, {
 		"animal_selected": animal_selected,
 		"current_fruit": current_fruit
 	})
@@ -40,7 +40,7 @@ func log_correct_answer(animal_selected: String):
 	print("Resposta correta, total até agora: ", number_of_corrects)
 	var elapsed_time = stop_timer()
 	total_response_time_correct += elapsed_time
-	_create_log_entry("correct_answer", elapsed_time, {
+	create_log_entry("correct_answer", elapsed_time, {
 		"animal_selected": animal_selected,
 	})
 
@@ -49,7 +49,7 @@ func log_incorrect_answer():
 	print("Resposta ERRADA, total até agora: ", number_of_incorrects)
 	var elapsed_time = stop_timer()
 	total_response_time_incorrect += elapsed_time
-	_create_log_entry("incorrect_answer", elapsed_time, {})
+	create_log_entry("incorrect_answer", elapsed_time, {})
 
 func start_timer():
 	start_time = Time.get_ticks_msec()
@@ -59,15 +59,14 @@ func stop_timer():
 	return elapsed_time
 
 func calculate_metrics():
-	definitive_time = Time.get_unix_time_from_system() - _session_start_time
-	var avg_time_correct = 0 if number_of_corrects == 0 else total_response_time_correct / number_of_corrects
-	var avg_time_incorrect = 0 if number_of_incorrects == 0 else total_response_time_incorrect / number_of_incorrects
-	var total_responses = number_of_corrects + number_of_incorrects
-	var avg_correct_percentage = 0 if total_responses == 0 else (number_of_corrects * 100.0) / total_responses
-	var avg_incorrect_percentage = 100.0 - avg_correct_percentage
-
+	definitive_time = Time.get_unix_time_from_system() - session_start_time
+	var avg_time_correct : float = 0 if number_of_corrects == 0 else total_response_time_correct / number_of_corrects
+	var avg_time_incorrect : float = 0 if number_of_incorrects == 0 else total_response_time_incorrect / number_of_incorrects
+	var total_responses : float = number_of_corrects + number_of_incorrects
+	var avg_correct_percentage : float = 0 if total_responses == 0 else (number_of_corrects/ total_responses) * 100
+	var avg_incorrect_percentage : float = 100.0 - avg_correct_percentage
 	return {
-		"Tempo Total de Jogo (ms)": definitive_time,
+		"Tempo Total de Jogo (s)": definitive_time,
 		"Tempo Médio por Resposta Correta (ms)": avg_time_correct,
 		"Tempo Médio por Resposta Errada (ms)": avg_time_incorrect,
 		"Quantidade de Respostas Certas": number_of_corrects,
@@ -80,7 +79,8 @@ func save_logs():
 	var metrics = calculate_metrics()
 	var file_path = "res://scripts/data_collector/game_logs.csv"
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
-
+	print("Log salvo em: ", file_path)
+	
 	# Cabeçalhos
 	var headers = [
 		"Tempo Total de Jogo (ms)",
@@ -91,19 +91,17 @@ func save_logs():
 		"Quantidade de Respostas Erradas",
 		"Média de Respostas Erradas (%)"
 	]
-	file.store_string(headers.join(";") + "\n")
-
+	file.store_string(";".join(headers) + "\n")
+	
 	# Valores
-	var values = [
-		metrics["Tempo Total de Jogo (ms)"],
-		metrics["Tempo Médio por Resposta Correta (ms)"],
-		metrics["Tempo Médio por Resposta Errada (ms)"],
-		metrics["Quantidade de Respostas Certas"],
-		metrics["Média de Respostas Certas (%)"],
-		metrics["Quantidade de Respostas Erradas"],
-		metrics["Média de Respostas Erradas (%)"]
-	]
-	file.store_string(values.join(";") + "\n")
-
+	var values = []
+	values.append(str(metrics["Tempo Total de Jogo (ms)"]))
+	values.append(str(metrics["Tempo Médio por Resposta Correta (ms)"]))
+	values.append(str(metrics["Tempo Médio por Resposta Errada (ms)"]))
+	values.append(str(metrics["Quantidade de Respostas Certas"]))
+	values.append(str(metrics["Média de Respostas Certas (%)"]))
+	values.append(str(metrics["Quantidade de Respostas Erradas"]))
+	values.append(str(metrics["Média de Respostas Erradas (%)"]))
+	file.store_string(";".join(values) + "\n")
 	file.close()
 	print("Logs salvos em: ", file_path)
