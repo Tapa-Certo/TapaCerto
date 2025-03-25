@@ -8,12 +8,12 @@ var sfx_volume: float = 1.0
 
 var shuffle_grid: bool = false
 var show_hints: bool = true
-var enable_sound: bool = false
+var enable_sound: bool = true
 
 #facil, normal, dificil
-var difficulty_level: String = "normal" 
+var difficulty_level: String = "facil" 
 #"Parear" ou "Associar"
-var game_mode: String = "Parear" 
+var game_mode: String = "Associar" 
 
 const HIGHLIGHT_COLOR = Color(1, 1, 1)  # Verde claro
 const SHAKE_INTENSITY = 8.0
@@ -153,7 +153,7 @@ func load_settings():
 		sfx_volume = settings.get("sfx_volume", 1.0)
 		shuffle_grid = settings.get("shuffle_grid", true)
 		show_hints = settings.get("show_hints", true)
-		difficulty_level = settings.get("difficulty_level", "normal")
+		difficulty_level = settings.get("difficulty_level", "facil")
 		
 func set_master_volume(value: float):
 	master_volume = value

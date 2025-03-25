@@ -1,3 +1,75 @@
-[gd_scene format=3 uid="uid://826tnvvdgrs4"]
+[gd_scene load_steps=5 format=3 uid="uid://826tnvvdgrs4"]
+
+[ext_resource type="Texture2D" uid="uid://buppiemjfb7bc" path="res://assets/UI/Background/BG-Default.png" id="1_vrcsm"]
+[ext_resource type="Texture2D" uid="uid://bdbwod1onrc55" path="res://assets/UI/Buttons/Botao Home.png" id="2_40k36"]
+[ext_resource type="FontFile" uid="uid://bnbyx8dq7i002" path="res://assets/UI/Fonts/Poppins-ExtraBold.ttf" id="2_q6gfs"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_c3ffh"]
+font = ExtResource("2_q6gfs")
+font_size = 64
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Configs" type="CanvasLayer"]
+
+[node name="Panel" type="Panel" parent="."]
+offset_right = 1200.0
+offset_bottom = 700.0
+
+[node name="PanelContainerBackground" type="PanelContainer" parent="Panel"]
+layout_mode = 0
+offset_left = -120.0
+offset_top = -130.0
+offset_right = 1320.0
+offset_bottom = 830.0
+
+[node name="TextureRect" type="TextureRect" parent="Panel/PanelContainerBackground"]
+layout_mode = 2
+texture = ExtResource("1_vrcsm")
+
+[node name="Control" type="Control" parent="Panel/PanelContainerBackground"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel/PanelContainerBackground/Control"]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 150.0
+offset_right = 206.0
+offset_bottom = 217.0
+
+[node name="Home" type="TextureButton" parent="Panel/PanelContainerBackground/Control/MarginContainer" groups=["buttons"]]
+layout_mode = 2
+texture_normal = ExtResource("2_40k36")
+
+[node name="Titulo" type="Label" parent="Panel"]
+modulate = Color(1, 0.67451, 0.313726, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.49125
+anchor_top = 0.169286
+anchor_right = 0.515417
+anchor_bottom = 0.169286
+offset_left = -289.5
+offset_top = -45.5
+offset_right = 281.5
+offset_bottom = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 10
+text = "CONFIGURAÇÕES"
+label_settings = SubResource("LabelSettings_c3ffh")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 0
+offset_left = 300.0
+offset_top = 170.0
+offset_right = 900.0
+offset_bottom = 670.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer"]
+layout_mode = 2

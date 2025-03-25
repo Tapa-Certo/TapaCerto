@@ -10,6 +10,25 @@ var hud
 var item
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 
+var animal_sounds = {
+	"macaco": $macaco,
+	"cavalo": $cavalo,
+	"elefante": $elefante,
+	"girafa": $girafa,
+	"peixe": $peixe,
+	"leao": $leao,
+	"coelho": $coelho,
+	"abelha": $abelha,
+	"pinguim": $pinguim,
+	"porco": $porco,
+	"vaca": $vaca,
+	"urso": $urso,
+	"galinha": $galinha,
+	"gato": $gato,
+	"cachorro": $cachorro,
+	"esquilo": $esquilo
+}
+
 func _ready() -> void:
 	hud = get_node("/root/Main/ScreensManager/Hud")
 	item = hud.get_node("Control/ItemDisplay/Item")
@@ -24,7 +43,14 @@ func _on_hint_trigger(hint_type: String) -> void:
 			$GridManager.highlight_correct_item(current_item_value)
 			
 		"shake":
+			if Globals.game_mode == "Associar":
+				var sound_node = get_node_or_null("Animais/" + current_item_value)
+				if sound_node:
+					sound_node.play()
+			if Globals.game_mode == "Parear":
+				$Shake.play()
 			print("Dica de chacoalhar ativada")
+			#$Shake.play()
 			$GridManager.shake_correct_item(current_item_value)
 	$HintManager.reset_hint_state(current_item_key)
 func reset_game() -> void:
@@ -88,6 +114,8 @@ func display_item() -> void:
 
 func check_selection(selected_item: String) -> bool:
 	var is_correct: bool = false
+	var sound_node = get_node_or_null("Animais/" + current_item_value)
+	sound_node.stop()
 
 	match Globals.game_mode:
 		"Parear": 
@@ -98,6 +126,7 @@ func check_selection(selected_item: String) -> bool:
 	$HintManager.register_selection(is_correct)
 	
 	if is_correct:
+		$Correct.play()
 		matched_items.append(current_item_key)
 		$GridManager.disable_button(selected_item)
 		
@@ -109,6 +138,7 @@ func check_selection(selected_item: String) -> bool:
 		#logger.log_correct_answer(selected_item)
 		logger.get_instance().log_correct_answer(selected_item)
 	else: 
+		$Incorrect.play()
 		logger.get_instance().log_incorrect_answer()
 	
 	return is_correct

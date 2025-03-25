@@ -26,13 +26,16 @@ func register_buttons():
 
 
 func _on_button_pressed(button):
-	if Globals.enable_sound: print("fez som do botao")
+	if Globals.enable_sound:
+		$ButtonPressed.play()
 	match button.name:
 		"Start":
+			
 			$Hud.show()
 			change_screen($Game)
 			#logger._create_log_entry()
 		"Configs":
+			$ButtonPressed.play()
 			change_screen($Configs) 
 		"Data":
 			logger.save_logs()
