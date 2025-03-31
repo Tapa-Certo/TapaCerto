@@ -2,7 +2,6 @@ extends Node
 
 signal start_game
 
-
 #var music_buttons = {true: preload("res://Sprites/flat-dark/flatDark16.png"), false: preload("res://Sprites/flat-dark/flatDark18.png")}
 #var sound_buttons = {true: preload("res://Sprites/flat-dark/flatDark12.png"), false: preload("res://Sprites/flat-dark/flatDark14.png")}
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
@@ -12,7 +11,6 @@ var time: float = 0.5
 func _ready():
 	register_buttons()
 	change_screen($Menu)
-	print(logger)
 
 func register_buttons():
 	var buttons = get_tree().get_nodes_in_group("buttons")
@@ -30,17 +28,23 @@ func _on_button_pressed(button):
 		$ButtonPressed.play()
 	match button.name:
 		"Start":
-			
+			Globals.start_game()
+	
 			$Hud.show()
 			change_screen($Game)
+			
 			#logger._create_log_entry()
 		"Configs":
+			Globals.pause_game()
 			$ButtonPressed.play()
 			change_screen($Configs) 
+			#PRECISA DE BOTAO DE RETORNO QUE VOLTA PARA ULTIMA TELA, SE VEIO DO MENU VOLTA PRO MENU E NAO DISPARA NENHUM SINAL
+			#SE TAVA NO JOGO, RETORNA PRO JOGO E DISPARA Globals.resume_game()
 		"Data":
 			logger.save_logs()
 			#change_screen($Data)
 		"Home":
+			Globals.reset_game()
 			change_screen($Menu) 
 			
 func change_screen(new_screen):

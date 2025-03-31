@@ -32,14 +32,21 @@ var animal_sounds = {
 func _ready() -> void:
 	hud = get_node("/root/Main/ScreensManager/Hud")
 	item = hud.get_node("Control/ItemDisplay/Item")
-	$HintManager.connect("hint_trigger", Callable(self, "_on_hint_trigger"))
+	setup_global_signal()
+	setup_children_signal()
 
-	reset_game()
+func setup_global_signal() -> void:
+	Globals.connect("game_started", Callable(self, "_on_game_started"))
+	Globals.connect("game_reset", Callable(self, "_on_game_reset"))
+	Globals.connect("difficulty_changed", Callable(self, "_on_difficulty_changed"))
+	Globals.connect("game_mode_changed", Callable(self, "_on_game_mode_changed"))
+
+func setup_children_signal() -> void:
+	$HintManager.connect("hint_trigger", Callable(self, "_on_hint_trigger"))
 	
 func _on_hint_trigger(hint_type: String) -> void:
 	match hint_type:
 		"wrong_attempts":
-			print("Dica de movimento ativada")
 			$GridManager.highlight_correct_item(current_item_value)
 			
 		"shake":
@@ -49,17 +56,32 @@ func _on_hint_trigger(hint_type: String) -> void:
 					sound_node.play()
 			if Globals.game_mode == "Parear":
 				$Shake.play()
-			print("Dica de chacoalhar ativada")
+			#print("Dica de chacoalhar ativada")
 			#$Shake.play()
 			$GridManager.shake_correct_item(current_item_value)
 	$HintManager.reset_hint_state(current_item_key)
+func _on_game_started() -> void:
+	_prepare_available_items()
+	$GridManager.setup_grid(available_items.values())
+	select_current_item()
+	display_item()
+	
+func _on_game_reset() -> void:
+	matched_items.clear()
+	_prepare_available_items()
+
+func _on_difficulty_changed(new_difficulty: String) -> void:
+	reset_game()
+
+func _on_game_mode_changed(new_mode: String) -> void:
+	reset_game()
+
 func reset_game() -> void:
 	matched_items.clear()
 	_prepare_available_items()
 	$GridManager.setup_grid(available_items.values())
 	select_current_item()
 	display_item()
-	emit_signal("game_reset")
 
 func _prepare_available_items() -> void:
 	match Globals.game_mode:

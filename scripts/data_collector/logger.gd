@@ -19,7 +19,7 @@ func _init():
 	session_start_time = Time.get_unix_time_from_system()
 
 func create_log_entry(event_type: String, time_action: int, details: Dictionary = {}) -> Dictionary:
-	print("Log criado")
+	#print("Log criado")
 	var entry = {
 		"time_elapsed": time_action,
 		"event_type": event_type,
@@ -37,7 +37,7 @@ func log_button_click(animal_selected: String, current_fruit: String):
 
 func log_correct_answer(animal_selected: String):
 	number_of_corrects += 1
-	print("Resposta correta, total até agora: ", number_of_corrects)
+	#print("Resposta correta, total até agora: ", number_of_corrects)
 	var elapsed_time = stop_timer()
 	total_response_time_correct += elapsed_time
 	create_log_entry("correct_answer", elapsed_time, {
@@ -46,7 +46,7 @@ func log_correct_answer(animal_selected: String):
 
 func log_incorrect_answer(): 
 	number_of_incorrects += 1
-	print("Resposta ERRADA, total até agora: ", number_of_incorrects)
+	#print("Resposta ERRADA, total até agora: ", number_of_incorrects)
 	var elapsed_time = stop_timer()
 	total_response_time_incorrect += elapsed_time
 	create_log_entry("incorrect_answer", elapsed_time, {})
@@ -79,7 +79,7 @@ func save_logs():
 	var metrics = calculate_metrics()
 	var file_path = "res://scripts/data_collector/game_logs.csv"
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
-	print("Log salvo em: ", file_path)
+	#print("Log salvo em: ", file_path)
 	
 	# Cabeçalhos
 	var headers = [
@@ -104,4 +104,4 @@ func save_logs():
 	values.append(str(metrics["Média de Respostas Erradas (%)"]))
 	file.store_string(";".join(values) + "\n")
 	file.close()
-	print("Logs salvos em: ", file_path)
+	#print("Logs salvos em: ", file_path)
