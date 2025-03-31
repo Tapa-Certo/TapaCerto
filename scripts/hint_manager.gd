@@ -13,13 +13,14 @@ var current_fruit: String = ""
 var hint_triggered: bool = false
 
 func _process(delta) -> void:
-	if !Globals.show_hints: return
+	if !Globals.show_hints or Globals.is_paused or !Globals.in_game: return #ISSO aqui eh uma bomba, nao mexam nos sinais se nao querem que o mesmo exploda na tua cara
 	time_since_last_selection += delta
 	if time_since_last_selection >= hint_time_threshold and not hint_triggered:
 		hint_triggered = true
 		trigger_hint("shake")
 		
 func trigger_hint(hint_type: String):
+	print(hint_type)
 	emit_signal("hint_trigger", hint_type)
 
 func reset_hint_state(fruit: String):
