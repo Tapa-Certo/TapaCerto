@@ -3,7 +3,7 @@ extends GridContainer
 func _ready():
 	columns = Globals.current_columns
 	get_viewport().size_changed.connect(_update_grid_layout)
-	#_update_grid_layout()
+	_update_grid_layout()
 	
 func _update_grid_layout():
 	
@@ -132,16 +132,15 @@ func clear_grid() -> void:
 	for child in get_children():
 		remove_child(child)
 		child.queue_free()
-
 	get_children().clear()
-
-func hide_cell(cell_name: String) -> void:
-	for child in get_children():
-		if child.name == cell_name:
-			child.modulate = Color(1, 1, 1, 0)
-			child.disabled = true
 
 func shuffle_items_array(items_array: Array) -> Array:
 	var shuffled = items_array.duplicate()
 	shuffled.shuffle()
 	return shuffled
+	
+"""func hide_cell(cell_name: String) -> void:
+	for child in get_children():
+		if child.name == cell_name:
+			child.modulate = Color(1, 1, 1, 0)
+			child.disabled = true"""
