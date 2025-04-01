@@ -1,41 +1,68 @@
 extends Node
 
-@export var hint_time_threshold: float = 2.5
-@export var hint_missclick_threshold: int = 1
-@export var max_wrong_attempts: int = 3  
-@export var reduction_time_value: float = 1.5
+@export var time_threshold: float = 5.5          
+@export var mistake_threshold: int = 3           
+@export var time_reduction_per_hint: float = 1.5 #NUNCA FOI UTILIZADO
 
-signal hint_trigger(hint_type)
+signal hint_triggered(hint_type)
 
-var time_since_last_selection: float = 0.0
-var incorrect_attempts: int = 0
-var current_fruit: String = ""
-var hint_triggered: bool = false
+var _time_since_last_action: float = 0.0
+var _incorrect_attempts: int = 0
+var _current_target: String = ""
+var _is_hint_active: bool = false
+var _should_process_hints: bool = false
+
+func _ready() -> void:
+	_update_processing_flag()
 
 func _process(delta) -> void:
-	if !Globals.show_hints or Globals.is_paused or !Globals.in_game: return #ISSO aqui eh uma bomba, nao mexam nos sinais se nao querem que o mesmo exploda na tua cara
-	time_since_last_selection += delta
-	if time_since_last_selection >= hint_time_threshold and not hint_triggered:
-		hint_triggered = true
-		trigger_hint("shake")
-		
-func trigger_hint(hint_type: String):
-	emit_signal("hint_trigger", hint_type)
+	if not _should_process_hints:
+		return
+	
+	_time_since_last_action += delta
+	
+	if _should_trigger_time_based_hint():
+		_is_hint_active = true
+		_trigger_hint("shake")
 
-func reset_hint_state(fruit: String):
-	hint_triggered = false
-	time_since_last_selection = 0.0
-	incorrect_attempts = 0
-	current_fruit = fruit
+func _update_processing_flag() -> void:
+	_should_process_hints = (
+		Globals.show_hints 
+		and not Globals.is_paused 
+		and Globals.in_game
+	)
+	
+func _should_trigger_time_based_hint() -> bool:
+	return (
+		_time_since_last_action >= time_threshold 
+		and not _is_hint_active
+	)
+	
+func reset_hint_state(target: String) -> void:
+	_is_hint_active = false
+	_time_since_last_action = 0.0
+	_incorrect_attempts = 0
+	_current_target = target
+	_update_processing_flag()
 
-func register_selection(is_correct: bool):
-	time_since_last_selection = 0.0
-	hint_triggered = false
+func register_selection(is_correct: bool) -> void:
+	_time_since_last_action = 0.0
+	_is_hint_active = false
+	
 	if is_correct:
-		hint_triggered = false
-		incorrect_attempts = 0
+		_handle_correct_selection()
 	else:
-		incorrect_attempts += 1
-		if incorrect_attempts >= max_wrong_attempts:
-			hint_triggered = true
-			trigger_hint("wrong_attempts")
+		_handle_incorrect_selection()
+
+func _handle_correct_selection() -> void:
+	_incorrect_attempts = 0
+
+func _handle_incorrect_selection() -> void:
+	_incorrect_attempts += 1
+	
+	if _incorrect_attempts >= mistake_threshold:
+		_is_hint_active = true
+		_trigger_hint("wrong_attempts")
+
+func _trigger_hint(hint_type: String) -> void:
+	hint_triggered.emit(hint_type)
