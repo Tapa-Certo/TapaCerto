@@ -48,18 +48,18 @@ func _on_hint_trigger(hint_type: String) -> void:
 	match hint_type:
 		"wrong_attempts":
 			$GridManager.highlight_correct_item(current_item_value)
-			
 		"shake":
 			if Globals.game_mode == "Associar":
-				var sound_node = get_node_or_null("Animais/" + current_item_value)
-				if sound_node:
-					sound_node.play()
+				var sound_node = get_animal_sound(current_item_value)
+				if sound_node: sound_node.play()
 			if Globals.game_mode == "Parear":
 				$Shake.play()
-			#print("Dica de chacoalhar ativada")
-			#$Shake.play()
 			$GridManager.shake_correct_item(current_item_value)
 	$HintManager.reset_hint_state(current_item_key)
+
+func get_animal_sound(animal: String) -> AudioStreamPlayer2D:
+	return get_node_or_null("Animais/" + animal)
+	
 func _on_game_started() -> void:
 	_prepare_available_items()
 	$GridManager.setup_grid(available_items.values())

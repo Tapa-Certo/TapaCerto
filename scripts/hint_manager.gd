@@ -20,7 +20,6 @@ func _process(delta) -> void:
 		trigger_hint("shake")
 		
 func trigger_hint(hint_type: String):
-	print(hint_type)
 	emit_signal("hint_trigger", hint_type)
 
 func reset_hint_state(fruit: String):
