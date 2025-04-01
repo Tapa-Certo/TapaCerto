@@ -1,15 +1,20 @@
 extends Node
 
+signal item_selected(key: String, value: String)
+signal game_reset_requested
+signal all_items_matched
+
+@onready var hud: Node = get_node("/root/Main/ScreensManager/Hud")
+@onready var item: Node = hud.get_node("Control/ItemDisplay/Item")
+@onready var logger: Node = load("res://scripts/data_collector/logger.gd").get_instance()
+
+# Game State Variables
 var current_item_key: String
 var current_item_value: String
-
 var matched_items: Array = []
 var available_items: Dictionary = {}
 
-var hud
-var item
-var logger = load("res://scripts/data_collector/logger.gd").get_instance()
-
+#ta usando isso aqui???
 var animal_sounds = {
 	"macaco": $macaco,
 	"cavalo": $cavalo,
@@ -30,19 +35,18 @@ var animal_sounds = {
 }
 
 func _ready() -> void:
-	hud = get_node("/root/Main/ScreensManager/Hud")
-	item = hud.get_node("Control/ItemDisplay/Item")
-	setup_global_signal()
-	setup_children_signal()
 
-func setup_global_signal() -> void:
-	Globals.connect("game_started", Callable(self, "_on_game_started"))
-	Globals.connect("game_reset", Callable(self, "_on_game_reset"))
-	Globals.connect("difficulty_changed", Callable(self, "_on_difficulty_changed"))
-	Globals.connect("game_mode_changed", Callable(self, "_on_game_mode_changed"))
+	_setup_global_signals()
+	_setup_children_signals()
 
-func setup_children_signal() -> void:
-	$HintManager.connect("hint_trigger", Callable(self, "_on_hint_trigger"))
+func _setup_global_signals() -> void:
+	Globals.game_started.connect(_on_game_started)
+	Globals.game_reset.connect(_on_game_reset)
+	#Globals.difficulty_changed.connect(_on_difficulty_changed)
+	#Globals.game_mode_changed.connect(_on_game_mode_changed)
+
+func _setup_children_signals() -> void:
+	$HintManager.hint_triggered.connect(_on_hint_trigger)
 	
 func _on_hint_trigger(hint_type: String) -> void:
 	match hint_type:
@@ -63,25 +67,25 @@ func get_animal_sound(animal: String) -> AudioStreamPlayer2D:
 func _on_game_started() -> void:
 	_prepare_available_items()
 	$GridManager.setup_grid(available_items.values())
-	select_current_item()
-	display_item()
-	
+	_select_and_display_current_item()
+
 func _on_game_reset() -> void:
 	matched_items.clear()
 	_prepare_available_items()
 
-func _on_difficulty_changed(new_difficulty: String) -> void:
-	reset_game()
+func _on_difficulty_changed(_new_difficulty: String) -> void:
+	pass
+	#reset_game()
 
-func _on_game_mode_changed(new_mode: String) -> void:
-	reset_game()
+func _on_game_mode_changed(_new_mode: String) -> void:
+	pass
+	#reset_game()
 
 func reset_game() -> void:
 	matched_items.clear()
 	_prepare_available_items()
 	$GridManager.setup_grid(available_items.values())
-	select_current_item()
-	display_item()
+	_select_and_display_current_item()
 
 func _prepare_available_items() -> void:
 	match Globals.game_mode:
@@ -105,14 +109,14 @@ func _select_random_items(source_dict: Dictionary) -> Dictionary:
 	
 	return result_dict
 
-func select_current_item() -> void:
+func _select_and_display_current_item() -> void:
 	if available_items.is_empty():
-		reset_game()
+		game_reset_requested.emit()
 		return
 		
 	var unmatched_items = _get_unmatched_items()
 	if unmatched_items.is_empty():
-		reset_game()
+		all_items_matched.emit()
 		return
 	
 	var random_index = randi() % unmatched_items.size()
@@ -121,6 +125,9 @@ func select_current_item() -> void:
 	current_item_key = item_pair[0]
 	current_item_value = item_pair[1]
 	$HintManager.reset_hint_state(current_item_key)
+	
+	display_item()
+	item_selected.emit(current_item_key, current_item_value)
 
 func _get_unmatched_items() -> Array:
 	var unmatched = []
@@ -135,38 +142,52 @@ func display_item() -> void:
 	item.position = Vector2(0,0)
 
 func check_selection(selected_item: String) -> bool:
-	var is_correct: bool = false
-	var sound_node = get_node_or_null("Animais/" + current_item_value)
-	sound_node.stop()
-
-	match Globals.game_mode:
-		"Parear": 
-			is_correct = available_items[current_item_value] == selected_item
-		"Associar": 
-			is_correct = available_items[current_item_key] == selected_item
-	
-	$HintManager.register_selection(is_correct)
+	var is_correct := _is_selection_correct(selected_item)
+	_handle_selection_feedback(is_correct, selected_item)
 	
 	if is_correct:
-		$Correct.play()
-		matched_items.append(current_item_key)
-		$GridManager.disable_button(selected_item)
-		
-		if all_items_matched():
-			reset_game()
-		else:
-			select_current_item()
-			display_item()
-		#logger.log_correct_answer(selected_item)
-		logger.get_instance().log_correct_answer(selected_item)
-	else: 
-		$Incorrect.play()
-		logger.get_instance().log_incorrect_answer()
+		_handle_correct_selection(selected_item)
+	else:
+		_handle_incorrect_selection()
 	
 	return is_correct
 
-func all_items_matched() -> bool:
+func _is_selection_correct(selected_item: String) -> bool:
+	match Globals.game_mode:
+		"Parear": 
+			return available_items[current_item_value] == selected_item
+		"Associar": 
+			return available_items[current_item_key] == selected_item
+		_:
+			return false
+
+func _handle_selection_feedback(is_correct: bool, selected_item: String) -> void:
+	$HintManager.register_selection(is_correct)
+	get_node_or_null("Animais/" + current_item_value).stop()
+	
+func _handle_correct_selection(selected_item: String) -> void:
+	$Correct.play()
+	matched_items.append(current_item_key)
+	$GridManager.disable_button(selected_item)
+	logger.log_correct_answer(selected_item)
+	
+	if is_all_items_matched():
+		all_items_matched.emit()
+	else:
+		_select_and_display_current_item()
+
+func _handle_incorrect_selection() -> void:
+	$Incorrect.play()
+	logger.log_incorrect_answer()
+
+func is_all_items_matched() -> bool:
 	return matched_items.size() >= available_items.size()
+	
+func _play_animal_sound(animal: String) -> void:
+	var sound_node = get_node_or_null("Animais/" + animal)
+	if sound_node:
+		sound_node.play()
+	
 
 func _exit_tree():
 	#logger.save_logs()
