@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://826tnvvdgrs4"]
+[gd_scene load_steps=9 format=3 uid="uid://826tnvvdgrs4"]
 
+[ext_resource type="Script" path="res://scenes/screens/configs.gd" id="1_8yckq"]
 [ext_resource type="Texture2D" uid="uid://buppiemjfb7bc" path="res://assets/UI/Background/BG-Default.png" id="1_vrcsm"]
 [ext_resource type="Texture2D" uid="uid://bdbwod1onrc55" path="res://assets/UI/Buttons/Botao Home.png" id="2_40k36"]
 [ext_resource type="FontFile" uid="uid://bnbyx8dq7i002" path="res://assets/UI/Fonts/Poppins-ExtraBold.ttf" id="2_q6gfs"]
+[ext_resource type="Texture2D" uid="uid://60yqk5fq62km" path="res://assets/UI/Buttons/audio_on.png" id="5_rtiox"]
+[ext_resource type="Texture2D" uid="uid://uws2mbtht6kc" path="res://assets/UI/Buttons/audio_off.png" id="6_bp0va"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_c3ffh"]
 font = ExtResource("2_q6gfs")
@@ -10,7 +13,14 @@ font_size = 64
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_7n7nx"]
+font = ExtResource("2_q6gfs")
+font_size = 64
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
 [node name="Configs" type="CanvasLayer"]
+script = ExtResource("1_8yckq")
 
 [node name="Panel" type="Panel" parent="."]
 offset_right = 1200.0
@@ -73,3 +83,50 @@ offset_bottom = 670.0
 
 [node name="PanelContainer" type="PanelContainer" parent="Panel/MarginContainer"]
 layout_mode = 2
+
+[node name="Control" type="Control" parent="Panel/MarginContainer/PanelContainer"]
+layout_mode = 2
+
+[node name="label_audio" type="Label" parent="Panel/MarginContainer/PanelContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.4625
+anchor_top = 0.183
+anchor_right = 0.4675
+anchor_bottom = 0.183
+offset_left = -252.5
+offset_top = -45.5
+offset_right = 280.5
+offset_bottom = 45.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 10
+text = "Sons do jogo:"
+label_settings = SubResource("LabelSettings_7n7nx")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="audio_on" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
+layout_mode = 2
+offset_left = 405.0
+offset_top = 35.0
+offset_right = 805.0
+offset_bottom = 435.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("5_rtiox")
+
+[node name="audio_off" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
+visible = false
+offset_left = 405.0
+offset_top = 35.0
+offset_right = 805.0
+offset_bottom = 435.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("6_bp0va")
+
+[connection signal="pressed" from="Panel/MarginContainer/PanelContainer/Control/audio_on" to="." method="_on_audio_on_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/PanelContainer/Control/audio_off" to="." method="_on_audio_off_pressed"]
