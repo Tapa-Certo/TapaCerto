@@ -49,13 +49,14 @@ anchor_left = 0.42
 anchor_top = 0.693
 anchor_right = 0.58
 anchor_bottom = 0.967
-offset_left = 0.499969
-offset_top = -0.100006
-offset_right = -0.500061
+offset_left = 11.0
+offset_top = 54.9
+offset_right = -32.0
 offset_bottom = 0.0999756
 grow_horizontal = 2
 grow_vertical = 0
 texture = ExtResource("3_nff8o")
+expand_mode = 1
 
 [node name="Item" type="TextureRect" parent="Control/ItemDisplay"]
 layout_mode = 1
