@@ -228,5 +228,3 @@ func complete_level() -> void:
 	print("level_completed")
 	emit_signal("level_completed")
 
-
-

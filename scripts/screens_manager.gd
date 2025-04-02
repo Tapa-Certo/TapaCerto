@@ -2,12 +2,12 @@ extends Node
 
 signal start_game
 
-#var music_buttons = {true: preload("res://Sprites/flat-dark/flatDark16.png"), false: preload("res://Sprites/flat-dark/flatDark18.png")}
-#var sound_buttons = {true: preload("res://Sprites/flat-dark/flatDark12.png"), false: preload("res://Sprites/flat-dark/flatDark14.png")}
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 var current_screen = null
+var previous_screen = null  # Armazena a tela anterior
 var timer
 var time: float = 0.5
+
 func _ready():
 	register_buttons()
 	change_screen($Menu)
@@ -16,43 +16,43 @@ func register_buttons():
 	var buttons = get_tree().get_nodes_in_group("buttons")
 	for button in buttons:
 		button.connect("pressed", _on_button_pressed.bind(button))
-		#match button.name:
-		#	"Sound":
-		#		button.texture_normal = sound_buttons[Settings.enable_sound]
-		#	"Music":
-		#		button.texture_normal = music_buttons[Settings.enable_music]
-
 
 func _on_button_pressed(button):
 	if Globals.enable_sound:
 		$ButtonPressed.play()
+		
 	match button.name:
 		"Start":
 			Globals.start_game()
-	
 			$Hud.show()
 			change_screen($Game)
-			
-			#logger._create_log_entry()
+
 		"Configs":
+			# Salva a tela atual antes de mudar para configurações
+			previous_screen = current_screen
 			Globals.pause_game()
 			$ButtonPressed.play()
+			Globals.in_game = false
 			change_screen($Configs) 
-			#PRECISA DE BOTAO DE RETORNO QUE VOLTA PARA ULTIMA TELA, SE VEIO DO MENU VOLTA PRO MENU E NAO DISPARA NENHUM SINAL
-			#SE TAVA NO JOGO, RETORNA PRO JOGO E DISPARA Globals.resume_game()
+
+		"Back":  # Novo botão para voltar à tela anterior
+			if previous_screen:
+				change_screen(previous_screen)
+				if previous_screen == $Game:
+					Globals.resume_game()  # Retoma o jogo se estava nele
+					Globals.in_game = true
+
 		"Data":
 			logger.save_logs()
-			#change_screen($Data)
+
 		"Home":
 			Globals.reset_game()
+			Globals.in_game = false
 			change_screen($Menu) 
-			
+
 func change_screen(new_screen):
 	if current_screen:
 		current_screen.hide()
 	current_screen = new_screen
 	if new_screen:
 		current_screen.show()
-
-
-

@@ -29,8 +29,8 @@ func _update_processing_flag() -> void:
 	_should_process_hints = (
 		Globals.show_hints 
 		and not Globals.is_paused 
-		and Globals.in_game
 	)
+
 	
 func _should_trigger_time_based_hint() -> bool:
 	return (
@@ -65,4 +65,5 @@ func _handle_incorrect_selection() -> void:
 		_trigger_hint("wrong_attempts")
 
 func _trigger_hint(hint_type: String) -> void:
+	#if not Globals.menu
 	hint_triggered.emit(hint_type)
