@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvfi8nlouk24i"]
+
+[ext_resource type="Script" path="res://scripts/grid_manager.gd" id="1_xcvqg"]
+
+[node name="GridManager" type="GridContainer"]
+custom_minimum_size = Vector2(500, 600)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 15
+theme_override_constants/v_separation = 15
+script = ExtResource("1_xcvqg")

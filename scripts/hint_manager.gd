@@ -1,69 +1,74 @@
 extends Node
 
-@export var time_threshold: float = 5.5          
-@export var mistake_threshold: int = 3           
-@export var time_reduction_per_hint: float = 1.5 #NUNCA FOI UTILIZADO
-
+@export var time_threshold: float = 5.5
+@export var mistake_threshold: int = 3
+@export var time_reduction_per_hint: float = 1.5 # NUNCA FOI UTILIZADO
 signal hint_triggered(hint_type)
 
-var _time_since_last_action: float = 0.0
-var _incorrect_attempts: int = 0
-var _current_target: String = ""
-var _is_hint_active: bool = false
-var _should_process_hints: bool = false
+var time_since_last_action: float = 0.0
+var incorrect_attempts: int = 0
+var current_target: String = ""
+var is_hint_active: bool = false
+var should_process_hints: bool = false
 
 func _ready() -> void:
-	_update_processing_flag()
+	update_processing_flag()
+	# Opcional: Conectar a um sinal global de mudança de estado, se existir
+	# Exemplo: Globals.connect("in_game_changed", self, "_on_in_game_changed")
 
 func _process(delta) -> void:
-	if not _should_process_hints:
+	if not should_process_hints:
 		return
 	
-	_time_since_last_action += delta
+	time_since_last_action += delta
 	
-	if _should_trigger_time_based_hint():
-		_is_hint_active = true
-		_trigger_hint("shake")
+	if should_trigger_time_based_hint():
+		is_hint_active = true
+		trigger_hint("shake")
 
-func _update_processing_flag() -> void:
-	_should_process_hints = (
-		Globals.show_hints 
-		and not Globals.is_paused 
-	)
+func update_processing_flag() -> void:
+	should_process_hints = (Globals.show_hints and Globals.in_game)
+	set_process(should_process_hints)  # Pausa o _process se não deve processar
+	print("Atualizando hints: in_game =", Globals.in_game, "should_process_hints =", should_process_hints)
+	if should_process_hints:
+		time_since_last_action = 0.0
+		is_hint_active = false
 
-	
-func _should_trigger_time_based_hint() -> bool:
+func should_trigger_time_based_hint() -> bool:
 	return (
-		_time_since_last_action >= time_threshold 
-		and not _is_hint_active
+		time_since_last_action >= time_threshold 
+		and not is_hint_active
 	)
-	
+
 func reset_hint_state(target: String) -> void:
-	_is_hint_active = false
-	_time_since_last_action = 0.0
-	_incorrect_attempts = 0
-	_current_target = target
-	_update_processing_flag()
+	is_hint_active = false
+	time_since_last_action = 0.0
+	incorrect_attempts = 0
+	current_target = target
+	update_processing_flag()
 
 func register_selection(is_correct: bool) -> void:
-	_time_since_last_action = 0.0
-	_is_hint_active = false
+	time_since_last_action = 0.0
+	is_hint_active = false
 	
 	if is_correct:
-		_handle_correct_selection()
+		handle_correct_selection()
 	else:
-		_handle_incorrect_selection()
+		handle_incorrect_selection()
 
-func _handle_correct_selection() -> void:
-	_incorrect_attempts = 0
+func handle_correct_selection() -> void:
+	incorrect_attempts = 0
 
-func _handle_incorrect_selection() -> void:
-	_incorrect_attempts += 1
+func handle_incorrect_selection() -> void:
+	incorrect_attempts += 1
 	
-	if _incorrect_attempts >= mistake_threshold:
-		_is_hint_active = true
-		_trigger_hint("wrong_attempts")
+	if incorrect_attempts >= mistake_threshold:
+		is_hint_active = true
+		trigger_hint("wrong_attempts")
 
-func _trigger_hint(hint_type: String) -> void:
-	#if not Globals.menu
+func trigger_hint(hint_type: String) -> void:
 	hint_triggered.emit(hint_type)
+
+# Função para reagir a mudanças em Globals.in_game (se houver um sinal)
+func _on_in_game_changed(new_value: bool) -> void:
+	update_processing_flag()

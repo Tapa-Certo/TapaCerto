@@ -1,0 +1,116 @@
+[gd_scene load_steps=24 format=3 uid="uid://byosiutq5a8s3"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_yei8q"]
+[ext_resource type="PackedScene" uid="uid://cvfi8nlouk24i" path="res://scenes/managers/grid_manager.tscn" id="2_uxle8"]
+[ext_resource type="Script" path="res://scripts/hint_manager.gd" id="3_qwf4h"]
+[ext_resource type="AudioStream" uid="uid://cxs0tig4xxrr3" path="res://sounds/sons/jogo/correto.mp3" id="4_gqdfp"]
+[ext_resource type="AudioStream" uid="uid://c6mkc5vvdy8xo" path="res://sounds/sons/jogo/incorreto.mp3" id="5_dlu0r"]
+[ext_resource type="AudioStream" uid="uid://dor66m8uqt5s2" path="res://sounds/sons/jogo/dica(1).MP3" id="6_habiy"]
+[ext_resource type="AudioStream" uid="uid://bm23b48dbd5dp" path="res://sounds/sons/animais/cachorro.mp3" id="7_gecjo"]
+[ext_resource type="AudioStream" uid="uid://bye3gdkoughci" path="res://sounds/sons/animais/vaca.mp3" id="8_4xvtb"]
+[ext_resource type="AudioStream" uid="uid://brqsk7h8e5jlh" path="res://sounds/sons/animais/gato.mp3" id="9_h5qij"]
+[ext_resource type="AudioStream" uid="uid://dyplr1h8jmh4l" path="res://sounds/sons/animais/peixe.mp3" id="10_2a1py"]
+[ext_resource type="AudioStream" uid="uid://b8aplaftmqk7l" path="res://sounds/sons/animais/pinguim.mp3" id="11_o4o1g"]
+[ext_resource type="AudioStream" uid="uid://dfakwgeukhjuk" path="res://sounds/sons/animais/leão.mp3" id="12_qcabl"]
+[ext_resource type="AudioStream" uid="uid://dv4gvntxgvhea" path="res://sounds/sons/animais/urso.mp3" id="13_hsv6d"]
+[ext_resource type="AudioStream" uid="uid://dj4e1y4xmbjnr" path="res://sounds/sons/animais/abelha.mp3" id="14_aytrv"]
+[ext_resource type="AudioStream" uid="uid://qtcoikbrpghl" path="res://sounds/sons/animais/porco.mp3" id="15_gaqc0"]
+[ext_resource type="AudioStream" uid="uid://dqhqti22pd0l2" path="res://sounds/sons/animais/elefante.mp3" id="16_0s86q"]
+[ext_resource type="AudioStream" uid="uid://v6rureipc0q" path="res://sounds/sons/animais/girafa.mp3" id="17_fj6s5"]
+[ext_resource type="AudioStream" uid="uid://vpw6kcamqugv" path="res://sounds/sons/animais/galinha.mp3" id="18_260xe"]
+[ext_resource type="AudioStream" uid="uid://404poo4b7on4" path="res://sounds/sons/animais/coelho.mp3" id="19_cuyye"]
+[ext_resource type="AudioStream" uid="uid://curkqxawfo5cx" path="res://sounds/sons/animais/esquilo.mp3" id="20_is48q"]
+[ext_resource type="AudioStream" uid="uid://b6ruqo2xp5xup" path="res://sounds/sons/animais/passaro.mp3" id="21_u8adk"]
+[ext_resource type="AudioStream" uid="uid://dt0u4bqwaq2ht" path="res://sounds/sons/animais/macaco.mp3" id="22_eh6vg"]
+[ext_resource type="AudioStream" uid="uid://bw5dyo3jbfrca" path="res://sounds/sons/animais/cavalo.mp3" id="23_sdxta"]
+
+[node name="Game" type="CanvasLayer"]
+script = ExtResource("1_yei8q")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -200.0
+offset_right = 300.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridManager" parent="Control" instance=ExtResource("2_uxle8")]
+layout_mode = 1
+columns = 2
+
+[node name="Correct" type="AudioStreamPlayer2D" parent="Control"]
+position = Vector2(-580, -330)
+stream = ExtResource("4_gqdfp")
+
+[node name="Incorrect" type="AudioStreamPlayer2D" parent="Control"]
+position = Vector2(-580, -330)
+stream = ExtResource("5_dlu0r")
+
+[node name="Shake" type="AudioStreamPlayer2D" parent="Control"]
+position = Vector2(-580, -330)
+stream = ExtResource("6_habiy")
+volume_db = 18.34
+
+[node name="Animais" type="AudioStreamPlayer2D" parent="Control"]
+position = Vector2(-580, -330)
+
+[node name="cachorro" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("7_gecjo")
+
+[node name="vaca" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("8_4xvtb")
+
+[node name="gato" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("9_h5qij")
+
+[node name="peixe" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("10_2a1py")
+
+[node name="pinguim" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("11_o4o1g")
+
+[node name="leao" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("12_qcabl")
+
+[node name="urso" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("13_hsv6d")
+
+[node name="abelha" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("14_aytrv")
+
+[node name="porco" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("15_gaqc0")
+
+[node name="elefante" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("16_0s86q")
+
+[node name="girafa" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("17_fj6s5")
+
+[node name="galinha" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("18_260xe")
+
+[node name="coelho" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("19_cuyye")
+
+[node name="esquilo" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("20_is48q")
+
+[node name="passaro" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("21_u8adk")
+
+[node name="macaco" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("22_eh6vg")
+
+[node name="cavalo" type="AudioStreamPlayer2D" parent="Control/Animais"]
+stream = ExtResource("23_sdxta")
+volume_db = -13.938
+
+[node name="HintManager" type="Node" parent="."]
+script = ExtResource("3_qwf4h")

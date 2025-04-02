@@ -129,6 +129,7 @@ texture_normal = ExtResource("6_2ufnx")
 
 [node name="audio_off" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
 visible = false
+layout_mode = 0
 offset_left = 358.0
 offset_top = 20.0
 offset_right = 758.0

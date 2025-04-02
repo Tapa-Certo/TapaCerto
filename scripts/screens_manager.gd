@@ -33,14 +33,18 @@ func _on_button_pressed(button):
 			Globals.pause_game()
 			$ButtonPressed.play()
 			Globals.in_game = false
+			$Game/HintManager.update_processing_flag()
 			change_screen($Configs) 
 
-		"Back":  # Novo botão para voltar à tela anterior
+		"Back":
 			if previous_screen:
 				change_screen(previous_screen)
 				if previous_screen == $Game:
-					Globals.resume_game()  # Retoma o jogo se estava nele
+					Globals.resume_game() 
 					Globals.in_game = true
+					$Game/HintManager.update_processing_flag()
+				else:
+					Globals.in_game = false
 
 		"Data":
 			logger.save_logs()
@@ -48,6 +52,7 @@ func _on_button_pressed(button):
 		"Home":
 			Globals.reset_game()
 			Globals.in_game = false
+			$Game/HintManager.update_processing_flag()
 			change_screen($Menu) 
 
 func change_screen(new_screen):
