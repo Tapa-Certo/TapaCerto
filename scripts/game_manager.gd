@@ -13,6 +13,7 @@ var current_item_key: String
 var current_item_value: String
 var matched_items: Array = []
 var available_items: Dictionary = {}
+#var total_items : itens = 
 
 #ta usando isso aqui???
 var animal_sounds = {
@@ -154,17 +155,24 @@ func check_selection(selected_item: String) -> bool:
 
 func _is_selection_correct(selected_item: String) -> bool:
 	match Globals.game_mode:
-		"Parear": 
-			return available_items[current_item_value] == selected_item
-		"Associar": 
+		"Parear":
+			return current_item_key == selected_item
+		"Associar":
 			return available_items[current_item_key] == selected_item
 		_:
 			return false
 
 func _handle_selection_feedback(is_correct: bool, selected_item: String) -> void:
 	$HintManager.register_selection(is_correct)
-	#get_node_or_null("Animais/" + current_item_value).stop()
+	var node: Node = null
+	if Globals.game_mode == "Parear":
+		node = get_node_or_null("Animais/" + current_item_key)
+	else:
+		node = get_node_or_null("Animais/" + selected_item)
+	if node:
+		node.stop()
 	
+
 func _handle_correct_selection(selected_item: String) -> void:
 	$Correct.play()
 	matched_items.append(current_item_key)
@@ -181,13 +189,20 @@ func _handle_incorrect_selection() -> void:
 	logger.log_incorrect_answer()
 
 func is_all_items_matched() -> bool:
+	Globals.numberOfCurrect += 1
+	checkIfWin(Globals.numberOfCurrect)
 	return matched_items.size() >= available_items.size()
 	
 func _play_animal_sound(animal: String) -> void:
 	var sound_node = get_node_or_null("Animais/" + animal)
 	if sound_node:
 		sound_node.play()
-	
+
+func checkIfWin(numberOfCurrect: int) -> bool: 
+	if numberOfCurrect == Globals.numberOfItens: 
+		$"..".change_screen($"../WinScene")
+		return true
+	return false
 
 func _exit_tree():
 	#logger.save_logs()

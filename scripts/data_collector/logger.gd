@@ -37,7 +37,7 @@ func log_button_click(animal_selected: String, current_fruit: String):
 
 func log_correct_answer(animal_selected: String):
 	number_of_corrects += 1
-	print("Resposta correta, total até agora: ", number_of_corrects)
+	print("Resposta correta, total ate agora: ", number_of_corrects)
 	var elapsed_time = stop_timer()
 	total_response_time_correct += elapsed_time
 	create_log_entry("correct_answer", elapsed_time, {
@@ -46,7 +46,7 @@ func log_correct_answer(animal_selected: String):
 
 func log_incorrect_answer(): 
 	number_of_incorrects += 1
-	print("Resposta ERRADA, total até agora: ", number_of_incorrects)
+	print("Resposta ERRADA, total ate agora: ", number_of_incorrects)
 	var elapsed_time = stop_timer()
 	total_response_time_incorrect += elapsed_time
 	create_log_entry("incorrect_answer", elapsed_time, {})
@@ -67,41 +67,47 @@ func calculate_metrics():
 	var avg_incorrect_percentage : float = 100.0 - avg_correct_percentage
 	return {
 		"Tempo Total de Jogo (s)": definitive_time,
-		"Tempo Médio por Resposta Correta (ms)": avg_time_correct,
-		"Tempo Médio por Resposta Errada (ms)": avg_time_incorrect,
+		"Tempo Medio por Resposta Correta (ms)": avg_time_correct,
+		"Tempo Medio por Resposta Errada (ms)": avg_time_incorrect,
 		"Quantidade de Respostas Certas": number_of_corrects,
-		"Média de Respostas Certas (%)": avg_correct_percentage,
+		"Media de Respostas Certas (%)": avg_correct_percentage,
 		"Quantidade de Respostas Erradas": number_of_incorrects,
-		"Média de Respostas Erradas (%)": avg_incorrect_percentage
+		"Media de Respostas Erradas (%)": avg_incorrect_percentage
 	}
 
 func save_logs():
 	var metrics = calculate_metrics()
-	var file_path = "user://game_logs.csv"
+	var downloads_path = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+	var file_path = downloads_path + "/game_logs.csv"
+	
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
-	print("Log salvo em: ", file_path)
+	if file:
+		print("Log salvo em: ", file_path)
+	else:
+		print("Erro ao salvar log.")
+		return
 	
 	# Cabeçalhos
 	var headers = [
 	"Tempo Total de Jogo (s)",
-	"Tempo Médio por Resposta Correta (ms)",
-	"Tempo Médio por Resposta Errada (ms)",
+	"Tempo Medio por Resposta Correta (ms)",
+	"Tempo Medio por Resposta Errada (ms)",
 	"Quantidade de Respostas Certas",
-	"Média de Respostas Certas (%)",
+	"Media de Respostas Certas (%)",
 	"Quantidade de Respostas Erradas",
-	"Média de Respostas Erradas (%)"
+	"Media de Respostas Erradas (%)"
 ]
 	file.store_string(";".join(headers) + "\n")
 	
 	# Valores
 	var values = []
 	values.append(str(metrics["Tempo Total de Jogo (s)"]))
-	values.append("%.2f" % metrics["Tempo Médio por Resposta Correta (ms)"])
-	values.append("%.2f" % metrics["Tempo Médio por Resposta Errada (ms)"])
+	values.append("%.2f" % metrics["Tempo Medio por Resposta Correta (ms)"])
+	values.append("%.2f" % metrics["Tempo Medio por Resposta Errada (ms)"])
 	values.append(str(metrics["Quantidade de Respostas Certas"]))
-	values.append("%.2f" % metrics["Média de Respostas Certas (%)"])
+	values.append("%.2f" % metrics["Media de Respostas Certas (%)"])
 	values.append(str(metrics["Quantidade de Respostas Erradas"]))
-	values.append("%.2f" % metrics["Média de Respostas Erradas (%)"])
+	values.append("%.2f" % metrics["Media de Respostas Erradas (%)"])
 
 	file.store_string(";".join(values) + "\n")
 	file.close()

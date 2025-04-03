@@ -32,7 +32,9 @@ var max_rows: 	 int = 4
 var max_columns: int = 4
 var current_rows: 	 int  = 3
 var current_columns: int  = 4
-
+var numberOfItens: int  = (current_rows * current_columns)
+var numberOfCurrect: int = 0
+ 
 var is_paused: 	bool = false
 var in_game: 	bool = false
 

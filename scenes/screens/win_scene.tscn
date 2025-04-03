@@ -69,7 +69,7 @@ offset_bottom = 80.9172
 grow_horizontal = 2
 texture = ExtResource("2_kntan")
 
-[node name="button1" type="PanelContainer" parent="Panel"]
+[node name="play_again" type="PanelContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -81,11 +81,11 @@ offset_top = -32.3404
 offset_right = 123.5
 offset_bottom = 32.6596
 
-[node name="play_again" type="TextureButton" parent="Panel/button1"]
+[node name="play_again" type="TextureButton" parent="Panel/play_again" groups=["buttons"]]
 layout_mode = 2
 texture_normal = ExtResource("3_y8pla")
 
-[node name="button2" type="PanelContainer" parent="Panel"]
+[node name="menu" type="PanelContainer" parent="Panel"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -97,8 +97,6 @@ offset_top = -32.4248
 offset_right = 123.5
 offset_bottom = 32.5752
 
-[node name="menu" type="TextureButton" parent="Panel/button2"]
+[node name="Home" type="TextureButton" parent="Panel/menu" groups=["buttons"]]
 layout_mode = 2
 texture_normal = ExtResource("4_bud57")
-
-[connection signal="pressed" from="Panel/button1/play_again" to="." method="_on_play_again_pressed"]

@@ -17,6 +17,9 @@ visible = false
 [node name="Game" parent="." instance=ExtResource("3_qdobr")]
 visible = false
 
+[node name="WinScene" parent="Game" instance=ExtResource("6_v117h")]
+visible = false
+
 [node name="Menu" parent="." instance=ExtResource("2_mf8vs")]
 
 [node name="Configs" parent="." instance=ExtResource("5_unf10")]
@@ -24,5 +27,3 @@ visible = false
 
 [node name="ButtonPressed" type="AudioStreamPlayer2D" parent="." groups=["audio"]]
 stream = ExtResource("6_0lcv0")
-
-[node name="WinScene" parent="." instance=ExtResource("6_v117h")]

@@ -8,9 +8,11 @@ var previous_screen = null  # Armazena a tela anterior
 var timer
 var time: float = 0.5
 
+
 func _ready():
 	register_buttons()
 	change_screen($Menu)
+	$WinScene.hide()
 
 func register_buttons():
 	var buttons = get_tree().get_nodes_in_group("buttons")
@@ -26,6 +28,7 @@ func _on_button_pressed(button):
 			Globals.start_game()
 			$Hud.show()
 			change_screen($Game)
+			#change_screen($Game/WinScene)
 
 		"Configs":
 			# Salva a tela atual antes de mudar para configurações
@@ -52,8 +55,16 @@ func _on_button_pressed(button):
 		"Home":
 			Globals.reset_game()
 			Globals.in_game = false
+			Globals.numberOfCurrect = 0
 			$Game/HintManager.update_processing_flag()
 			change_screen($Menu) 
+			
+		"play_again": 
+			Globals.reset_game()
+			Globals.start_game()
+			Globals.numberOfCurrect = 0
+			change_screen($Game)
+			
 
 func change_screen(new_screen):
 	if current_screen:
