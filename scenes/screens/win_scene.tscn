@@ -1,0 +1,100 @@
+[gd_scene load_steps=5 format=3 uid="uid://yy6db0xx4qvi"]
+
+[ext_resource type="Texture2D" uid="uid://cfxdox6yrrmun" path="res://assets/UI/Background/Rectangle 9938.png" id="1_myhgv"]
+[ext_resource type="Texture2D" uid="uid://n0gwe6rfa8m5" path="res://assets/UI/Background/Parabens.png" id="2_kntan"]
+[ext_resource type="Texture2D" uid="uid://bwx0boi6ibory" path="res://assets/UI/Buttons/Linha 2.png" id="3_y8pla"]
+[ext_resource type="Texture2D" uid="uid://bn36xjb2tay8t" path="res://assets/UI/Buttons/Linha 1.png" id="4_bud57"]
+
+[node name="WinScene" type="CanvasLayer"]
+
+[node name="Panel" type="Panel" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.5
+offset_top = -181.8
+offset_right = 229.5
+offset_bottom = 181.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.5
+offset_top = -181.8
+offset_right = 229.5
+offset_bottom = 181.8
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="Panel/PanelContainer"]
+layout_mode = 2
+
+[node name="background" type="TextureRect" parent="Panel/PanelContainer/Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.0
+offset_top = -182.0
+offset_right = 281.0
+offset_bottom = 222.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("1_myhgv")
+
+[node name="parabens" type="TextureRect" parent="Panel/PanelContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.223
+anchor_right = 0.5
+anchor_bottom = 0.223
+offset_left = -229.5
+offset_top = -81.0828
+offset_right = 229.5
+offset_bottom = 80.9172
+grow_horizontal = 2
+texture = ExtResource("2_kntan")
+
+[node name="button1" type="PanelContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.639
+anchor_right = 0.5
+anchor_bottom = 0.639
+offset_left = -124.5
+offset_top = -32.3404
+offset_right = 123.5
+offset_bottom = 32.6596
+
+[node name="play_again" type="TextureButton" parent="Panel/button1"]
+layout_mode = 2
+texture_normal = ExtResource("3_y8pla")
+
+[node name="button2" type="PanelContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.818
+anchor_right = 0.5
+anchor_bottom = 0.818
+offset_left = -124.5
+offset_top = -32.4248
+offset_right = 123.5
+offset_bottom = 32.5752
+
+[node name="menu" type="TextureButton" parent="Panel/button2"]
+layout_mode = 2
+texture_normal = ExtResource("4_bud57")
