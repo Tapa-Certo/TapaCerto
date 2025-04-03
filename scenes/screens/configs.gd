@@ -19,8 +19,10 @@ func _on_modo_associar_pressed():
 	$Panel/MarginContainer/PanelContainer/Control/modo_associar.hide()
 	$Panel/MarginContainer/PanelContainer/Control/modo_parear.show()
 	Globals.game_mode = "Parear"
+	Globals.start_game()
 
 func _on_modo_parear_pressed():
 	$Panel/MarginContainer/PanelContainer/Control/modo_associar.show()
 	$Panel/MarginContainer/PanelContainer/Control/modo_parear.hide()
 	Globals.game_mode = "Associar"
+	Globals.start_game()

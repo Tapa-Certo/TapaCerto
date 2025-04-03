@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://yy6db0xx4qvi"]
+[gd_scene load_steps=6 format=3 uid="uid://yy6db0xx4qvi"]
 
+[ext_resource type="Script" path="res://scenes/screens/win_scene.gd" id="1_deyx8"]
 [ext_resource type="Texture2D" uid="uid://cfxdox6yrrmun" path="res://assets/UI/Background/Rectangle 9938.png" id="1_myhgv"]
 [ext_resource type="Texture2D" uid="uid://n0gwe6rfa8m5" path="res://assets/UI/Background/Parabens.png" id="2_kntan"]
 [ext_resource type="Texture2D" uid="uid://bwx0boi6ibory" path="res://assets/UI/Buttons/Linha 2.png" id="3_y8pla"]
 [ext_resource type="Texture2D" uid="uid://bn36xjb2tay8t" path="res://assets/UI/Buttons/Linha 1.png" id="4_bud57"]
 
 [node name="WinScene" type="CanvasLayer"]
+script = ExtResource("1_deyx8")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 8
@@ -98,3 +100,5 @@ offset_bottom = 32.5752
 [node name="menu" type="TextureButton" parent="Panel/button2"]
 layout_mode = 2
 texture_normal = ExtResource("4_bud57")
+
+[connection signal="pressed" from="Panel/button1/play_again" to="." method="_on_play_again_pressed"]
