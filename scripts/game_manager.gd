@@ -163,7 +163,7 @@ func _is_selection_correct(selected_item: String) -> bool:
 
 func _handle_selection_feedback(is_correct: bool, selected_item: String) -> void:
 	$HintManager.register_selection(is_correct)
-	get_node_or_null("Animais/" + current_item_value).stop()
+	#get_node_or_null("Animais/" + current_item_value).stop()
 	
 func _handle_correct_selection(selected_item: String) -> void:
 	$Correct.play()

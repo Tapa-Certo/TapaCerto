@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://826tnvvdgrs4"]
+[gd_scene load_steps=12 format=3 uid="uid://826tnvvdgrs4"]
 
 [ext_resource type="Script" path="res://scenes/screens/configs.gd" id="1_clb3a"]
 [ext_resource type="Texture2D" uid="uid://buppiemjfb7bc" path="res://assets/UI/Background/BG-Default.png" id="1_vrcsm"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://dm3c80i51qtts" path="res://assets/UI/Buttons/Botao Back.png" id="3_4vply"]
 [ext_resource type="Texture2D" uid="uid://7e8k600yfti1" path="res://assets/UI/Buttons/audio_on.png" id="6_2ufnx"]
 [ext_resource type="Texture2D" uid="uid://d3xs8f4exdx1g" path="res://assets/UI/Buttons/audio_off.png" id="7_1682f"]
+[ext_resource type="Texture2D" uid="uid://ctusnkthstjxw" path="res://assets/UI/Buttons/Botao_associar.png" id="8_4c78u"]
+[ext_resource type="Texture2D" uid="uid://bao3o8hrqq48f" path="res://assets/UI/Buttons/Botao_parear.png" id="9_hhbr2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_c3ffh"]
 font = ExtResource("2_q6gfs")
@@ -98,14 +100,14 @@ layout_mode = 2
 [node name="label_sons" type="Label" parent="Panel/MarginContainer/PanelContainer/Control"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.4675
-anchor_top = 0.171
-anchor_right = 0.4675
-anchor_bottom = 0.171
-offset_left = -252.5
-offset_top = -45.5
-offset_right = 280.5
-offset_bottom = 45.5
+anchor_left = 0.313
+anchor_top = 0.135
+anchor_right = 0.313
+anchor_bottom = 0.135
+offset_left = -159.8
+offset_top = -27.5
+offset_right = 373.2
+offset_bottom = 63.5
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.6, 0.6)
@@ -119,23 +121,87 @@ vertical_alignment = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="audio_on" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
-layout_mode = 0
-offset_left = 358.0
-offset_top = 20.0
-offset_right = 758.0
-offset_bottom = 420.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.68
+anchor_top = 0.14
+anchor_right = 0.68
+anchor_bottom = 0.14
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 350.0
+offset_bottom = 350.0
 scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("6_2ufnx")
 
 [node name="audio_off" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
 visible = false
-layout_mode = 0
-offset_left = 358.0
-offset_top = 20.0
-offset_right = 758.0
-offset_bottom = 420.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.68
+anchor_top = 0.14
+anchor_right = 0.68
+anchor_bottom = 0.14
+offset_left = -50.0
+offset_top = -50.0
+offset_right = 350.0
+offset_bottom = 350.0
 scale = Vector2(0.25, 0.25)
 texture_normal = ExtResource("7_1682f")
 
+[node name="label_modo" type="Label" parent="Panel/MarginContainer/PanelContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.313
+anchor_top = 0.355
+anchor_right = 0.313
+anchor_bottom = 0.355
+offset_left = -159.8
+offset_top = -27.5
+offset_right = 373.2
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/outline_size = 10
+text = "Modo de jogo:"
+label_settings = SubResource("LabelSettings_qlqus")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="modo_associar" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.765
+anchor_top = 0.359
+anchor_right = 0.765
+anchor_bottom = 0.359
+offset_left = -102.0
+offset_top = -27.5
+offset_right = 238.0
+offset_bottom = 63.5
+scale = Vector2(0.6, 0.6)
+texture_normal = ExtResource("8_4c78u")
+
+[node name="modo_parear" type="TextureButton" parent="Panel/MarginContainer/PanelContainer/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.765
+anchor_top = 0.359
+anchor_right = 0.765
+anchor_bottom = 0.359
+offset_left = -102.0
+offset_top = -27.5
+offset_right = 238.0
+offset_bottom = 63.5
+scale = Vector2(0.6, 0.6)
+texture_normal = ExtResource("9_hhbr2")
+
 [connection signal="pressed" from="Panel/MarginContainer/PanelContainer/Control/audio_on" to="." method="_on_audio_on_pressed"]
 [connection signal="pressed" from="Panel/MarginContainer/PanelContainer/Control/audio_off" to="." method="_on_audio_off_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/PanelContainer/Control/modo_associar" to="." method="_on_modo_associar_pressed"]
+[connection signal="pressed" from="Panel/MarginContainer/PanelContainer/Control/modo_parear" to="." method="_on_modo_parear_pressed"]
