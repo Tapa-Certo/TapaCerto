@@ -77,7 +77,7 @@ func calculate_metrics():
 
 func save_logs():
 	var metrics = calculate_metrics()
-	var file_path = "res://scripts/data_collector/game_logs.csv"
+	var file_path = "user://game_logs.csv"
 	var file = FileAccess.open(file_path, FileAccess.WRITE)
 	print("Log salvo em: ", file_path)
 	

@@ -8,8 +8,8 @@ func _ready():
 func _update_grid_layout():
 	
 	var viewport_size = get_viewport().size
-	var available_width = viewport_size.x * 0.5 # 80% da largura da viewport
-	var available_height = viewport_size.y * 0.5  # 80% da altura da viewport
+	var available_width = viewport_size.x * 0.4 # 80% da largura da viewport
+	var available_height = viewport_size.y * 0.4  # 80% da altura da viewport
 
 	# Determinar número de linhas
 	var rows = ceil(float(get_child_count()) / columns)
