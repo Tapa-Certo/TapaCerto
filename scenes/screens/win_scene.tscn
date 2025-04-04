@@ -1,13 +1,27 @@
 [gd_scene load_steps=6 format=3 uid="uid://yy6db0xx4qvi"]
 
-[ext_resource type="Script" path="res://scenes/screens/win_scene.gd" id="1_deyx8"]
 [ext_resource type="Texture2D" uid="uid://cfxdox6yrrmun" path="res://assets/UI/Background/Rectangle 9938.png" id="1_myhgv"]
 [ext_resource type="Texture2D" uid="uid://n0gwe6rfa8m5" path="res://assets/UI/Background/Parabens.png" id="2_kntan"]
 [ext_resource type="Texture2D" uid="uid://bwx0boi6ibory" path="res://assets/UI/Buttons/Linha 2.png" id="3_y8pla"]
 [ext_resource type="Texture2D" uid="uid://bn36xjb2tay8t" path="res://assets/UI/Buttons/Linha 1.png" id="4_bud57"]
 
+[sub_resource type="GDScript" id="GDScript_h4iga"]
+script/source = "extends CanvasLayer
+
+\"
+func _on_play_again_pressed():
+	pass
+	#Globals.start_game()
+
+
+func _on_menu_pressed():
+	pass
+	#$.change_screen($Menu)
+\"
+"
+
 [node name="WinScene" type="CanvasLayer"]
-script = ExtResource("1_deyx8")
+script = SubResource("GDScript_h4iga")
 
 [node name="Panel" type="Panel" parent="."]
 anchors_preset = 8

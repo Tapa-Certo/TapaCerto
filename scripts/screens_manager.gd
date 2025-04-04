@@ -1,11 +1,11 @@
 extends Node
 
 signal start_game
-
+@onready var timer = $Timer
 var logger = load("res://scripts/data_collector/logger.gd").get_instance()
 var current_screen = null
 var previous_screen = null  # Armazena a tela anterior
-var timer
+
 var time: float = 0.5
 
 
@@ -50,6 +50,8 @@ func _on_button_pressed(button):
 					Globals.in_game = false
 
 		"Data":
+			$Data.show()
+			timer.start()
 			logger.save_logs()
 
 		"Home":
@@ -72,3 +74,6 @@ func change_screen(new_screen):
 	current_screen = new_screen
 	if new_screen:
 		current_screen.show()
+
+func _on_timer_timeout():
+	$Data.hide()

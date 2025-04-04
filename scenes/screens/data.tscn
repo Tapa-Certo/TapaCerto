@@ -1,3 +1,30 @@
-[gd_scene format=3 uid="uid://dx546kmg0iw8w"]
+[gd_scene load_steps=3 format=3 uid="uid://dx546kmg0iw8w"]
+
+[ext_resource type="Texture2D" uid="uid://ehslmuqyxxyt" path="res://assets/UI/Background/data.png" id="1_vql1g"]
+[ext_resource type="Texture2D" uid="uid://cfxdox6yrrmun" path="res://assets/UI/Background/Rectangle 9938.png" id="2_hyqgm"]
 
 [node name="Data" type="CanvasLayer"]
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -600.0
+offset_top = -350.0
+offset_right = 600.0
+offset_bottom = 350.0
+texture = ExtResource("2_hyqgm")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -238.0
+offset_right = 400.0
+offset_bottom = 239.0
+texture = ExtResource("1_vql1g")
